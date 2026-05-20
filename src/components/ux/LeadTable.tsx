@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
-import Table from "./Table";
+import Table from "../ui/Table";
 import { leadTableColumns } from "./leadColumns";
-import { useLeadList } from "../hooks/useLeadList";
+import { useLeadList } from "../../hooks/useLeadList";
 
 export default function LeadTable() {
   const navigate = useNavigate();

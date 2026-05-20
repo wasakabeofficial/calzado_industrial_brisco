@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router";
 import LeadInfo from "./LeadInfo";
-import { useLeadDetail } from "../hooks/useLeadDetail";
-import { useLeadTranscription } from "../hooks/useLeadTranscription";
+import { useLeadDetail } from "../../hooks/useLeadDetail";
+import { useLeadTranscription } from "../../hooks/useLeadTranscription";
 
 export default function LeadDetail() {
   const { id } = useParams<{ id: string }>();

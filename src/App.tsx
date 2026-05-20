@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-import Logo from "./components/Logo";
-import LeadTable from "./components/LeadTable";
-import LeadDetail from "./components/LeadDetail";
+import Logo from "./components/ux/Logo";
+import LeadTable from "./components/ux/LeadTable";
+import LeadDetail from "./components/ux/LeadDetail";
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
