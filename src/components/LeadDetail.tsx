@@ -31,13 +31,10 @@ export default function LeadDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchLead();
-  }, [id]);
-
   async function fetchLead() {
     if (!id) return;
     try {
+      setLoading(true);
       const { data, error } = await supabase
         .from("leads_brisco")
         .select("*")
@@ -52,6 +49,12 @@ export default function LeadDetail() {
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchLead();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   if (loading) return <div className="p-8">Cargando...</div>;
   if (error) return <div className="p-8 text-red-500">Error: {error}</div>;
@@ -90,7 +93,9 @@ export default function LeadDetail() {
           </div>
           <div>
             <p className="text-sm text-gray-500">ID Cliente</p>
-            <p className="text-lg font-medium text-gray-900">{lead.id_cliente}</p>
+            <p className="text-lg font-medium text-gray-900">
+              {lead.id_cliente}
+            </p>
           </div>
           <div>
             <p className="text-sm text-gray-500">Status Llamada</p>
@@ -99,8 +104,8 @@ export default function LeadDetail() {
                 lead.vapi_call_status === "completed"
                   ? "bg-green-100 text-green-800"
                   : lead.vapi_call_status === "failed"
-                  ? "bg-red-100 text-red-800"
-                  : "bg-gray-100 text-gray-800"
+                    ? "bg-red-100 text-red-800"
+                    : "bg-gray-100 text-gray-800"
               }`}
             >
               {lead.vapi_call_status}
