@@ -21,7 +21,7 @@ export function useLeadDetail(leadId: number): UseLeadDetailResult {
       const data = await leadService.getLeadById(leadId);
       setLead(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unknown error");
+      setError(err instanceof Error ? err.message : "Error desconocido");
     } finally {
       setLoading(false);
     }

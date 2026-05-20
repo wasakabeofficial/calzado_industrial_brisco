@@ -1,5 +1,5 @@
 import { supabase } from "../lib/supabase";
-import type { Lead, TranscripcionData } from "../types";
+import type { Lead, TranscriptionResponse } from "../types";
 
 const LEADS_TABLE = "leads_brisco";
 const N8N_WEBHOOK_URL = "https://cesar.n8n-wsk.com/webhook/web_google_drive";
@@ -33,7 +33,9 @@ export const leadService = {
       throw new Error(`Error ${response.status}: ${response.statusText}`);
     }
 
-    const data: TranscripcionData = await response.json();
-    return data.texto?.transcripcion_limpia || "No transcription available";
+    const data: TranscriptionResponse = await response.json();
+    return (
+      data.texto?.transcripcion_limpia || "No hay transcripción disponible"
+    );
   },
 };

@@ -21,7 +21,7 @@ export function useLeadList(): UseLeadListResult {
       const data = await leadService.getAllLeads();
       setLeads(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unknown error");
+      setError(err instanceof Error ? err.message : "Error desconocido");
     } finally {
       setLoading(false);
     }

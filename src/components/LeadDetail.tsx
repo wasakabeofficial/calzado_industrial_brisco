@@ -22,9 +22,9 @@ export default function LeadDetail() {
     }
   };
 
-  if (loading) return <div className="p-8">Loading...</div>;
+  if (loading) return <div className="p-8">Cargando...</div>;
   if (error) return <div className="p-8 text-red-500">Error: {error}</div>;
-  if (!lead) return <div className="p-8">Lead not found</div>;
+  if (!lead) return <div className="p-8">Lead no encontrado</div>;
 
   return (
     <div className="p-8 max-w-4xl mx-auto">
@@ -32,11 +32,11 @@ export default function LeadDetail() {
         onClick={() => navigate(-1)}
         className="mb-6 text-orange-500 hover:text-orange-700 flex items-center gap-2"
       >
-        ← Back
+        ← Volver
       </button>
 
       <h1 className="text-3xl font-bold text-gray-900 mb-4">
-        Lead Details
+        Detalle del Lead
       </h1>
 
       <button
@@ -44,7 +44,7 @@ export default function LeadDetail() {
         disabled={loadingTranscription || !lead?.vapi_call_id}
         className="mb-6 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
       >
-        {loadingTranscription ? "Loading..." : "Read Transcription"}
+        {loadingTranscription ? "Cargando..." : "Leer Transcripción"}
       </button>
 
       <div
@@ -56,12 +56,12 @@ export default function LeadDetail() {
         {transcription && (
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold text-gray-900">Transcription</h2>
+              <h2 className="text-xl font-bold text-gray-900">Transcripción</h2>
               <button
                 onClick={clearTranscription}
                 className="text-gray-500 hover:text-gray-700 text-sm"
               >
-                ✕ Close
+                ✕ Cerrar
               </button>
             </div>
             <p className="text-gray-700 whitespace-pre-wrap">{transcription}</p>

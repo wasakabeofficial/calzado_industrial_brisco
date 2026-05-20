@@ -1,12 +1,12 @@
 import type { Lead } from "../types";
 
 export const leadTableColumns = [
-  { key: "nombre_completo" as keyof Lead, header: "Customer" },
-  { key: "nombre_empresa" as keyof Lead, header: "Company" },
-  { key: "telefono" as keyof Lead, header: "Phone" },
+  { key: "nombre_completo" as keyof Lead, header: "Cliente" },
+  { key: "nombre_empresa" as keyof Lead, header: "Empresa" },
+  { key: "telefono" as keyof Lead, header: "Teléfono" },
   {
     key: "vapi_call_status" as keyof Lead,
-    header: "Call Status",
+    header: "Status Llamada",
     render: (lead: Lead) => (
       <span
         className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium capitalize border ${
@@ -23,7 +23,7 @@ export const leadTableColumns = [
   },
   {
     key: "status_procesos" as keyof Lead,
-    header: "Process Status",
+    header: "Estado Proceso",
     render: (lead: Lead) => (
       <span
         className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium uppercase border ${
@@ -41,7 +41,7 @@ export const leadTableColumns = [
   },
   {
     key: "interes_cliente" as keyof Lead,
-    header: "Interest",
+    header: "Interés",
     render: (lead: Lead) => (
       <span
         className={`text-xs font-semibold ${
@@ -56,7 +56,7 @@ export const leadTableColumns = [
   },
   {
     key: "created_at" as keyof Lead,
-    header: "Date",
+    header: "Fecha",
     render: (lead: Lead) =>
       new Date(lead.created_at).toLocaleDateString("es-MX", {
         day: "2-digit",

@@ -15,7 +15,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 
       <footer className="bg-gray-100 py-4 text-center border-t border-gray-200">
         <p className="text-gray-600 text-sm">
-          Designed by Neuropoint.ai team
+          Diseñado por el equipo de Neuropoint.ai
         </p>
       </footer>
     </div>

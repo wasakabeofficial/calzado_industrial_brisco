@@ -23,7 +23,7 @@ export function useLeadTranscription(): UseLeadTranscriptionResult {
       setTranscription(data);
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Error loading transcription",
+        err instanceof Error ? err.message : "Error al cargar la transcripción",
       );
     } finally {
       setLoading(false);

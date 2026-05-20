@@ -20,7 +20,7 @@ export interface Lead {
   created_at: string;
 }
 
-export interface TranscripcionData {
+export interface TranscriptionResponse {
   texto?: {
     transcripcion_limpia?: string;
   };

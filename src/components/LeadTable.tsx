@@ -11,7 +11,7 @@ export default function LeadTable() {
     return (
       <div className="w-full px-6 py-4 mx-auto max-w-8xl">
         <div className="p-8 text-center text-sm text-gray-500 bg-gray-50 rounded-xl">
-          Loading records...
+          Cargando registros...
         </div>
       </div>
     );
@@ -35,7 +35,7 @@ export default function LeadTable() {
           data={leads}
           onRowClick={(lead) => navigate(`/lead/${lead.id_registro}`)}
           loading={loading}
-          emptyMessage="No lead records available at this time."
+          emptyMessage="No hay registros de leads disponibles en este momento."
         />
       </div>
     </div>
