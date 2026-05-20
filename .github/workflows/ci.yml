@@ -86,12 +86,6 @@ jobs:
       - name: Run tests with coverage
         run: npx vitest run --coverage
 
-      - name: Install Vitest coverage
-        run: npm install --save-dev @vitest/coverage-v8
-
-      - name: Run tests with coverage
-        run: npx vitest run --coverage
-
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
@@ -116,9 +110,6 @@ jobs:
         run: npm ci
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          projectKey: wasakabeofficial_calzado_industrial_brisco
-          organization: wasakabeofficial
