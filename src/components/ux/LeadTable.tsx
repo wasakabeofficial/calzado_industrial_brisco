@@ -1,6 +1,11 @@
 import { useNavigate } from "react-router";
 import Table from "../ui/Table";
 import InterestChart from "../ui/InterestChart";
+import CallStatusChart from "../ui/CallStatusChart";
+import ConversionChart from "../ui/ConversionChart";
+import FollowUpActionChart from "../ui/FollowUpActionChart";
+import ObjectionChart from "../ui/ObjectionChart";
+import CallFrequencyChart from "../ui/CallFrequencyChart";
 import { leadTableColumns } from "./leadColumns";
 import { useLeadList } from "../../hooks/useLeadList";
 
@@ -30,10 +35,18 @@ export default function LeadTable() {
 
   return (
     <div className="w-full px-6 py-4 mx-auto max-w-8xl space-y-6">
-      {/* Gráfica de interés */}
-      <InterestChart leads={leads} />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <InterestChart leads={leads} />
+        <CallStatusChart leads={leads} />
+        <ConversionChart leads={leads} />
+      </div>
 
-      {/* Tabla de leads */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <FollowUpActionChart leads={leads} />
+        <ObjectionChart leads={leads} />
+        <CallFrequencyChart leads={leads} />
+      </div>
+
       <div className="overflow-hidden bg-white border border-gray-200 shadow-sm rounded-xl">
         <Table
           columns={leadTableColumns}

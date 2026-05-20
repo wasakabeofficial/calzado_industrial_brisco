@@ -1,0 +1,144 @@
+import { useMemo } from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ResponsiveContainer,
+} from "recharts";
+import type { Lead } from "../../types";
+
+interface CallFrequencyChartProps {
+  leads: Lead[];
+}
+
+interface FrequencyData {
+  fecha: string;
+  llamadas: number;
+}
+
+export default function CallFrequencyChart({ leads }: CallFrequencyChartProps) {
+  const chartData = useMemo(() => {
+    const counts: Record<string, number> = {};
+
+    leads.forEach((lead) => {
+      if (lead.created_at) {
+        const date = new Date(lead.created_at);
+        const dayKey = date.toISOString().split("T")[0];
+        counts[dayKey] = (counts[dayKey] || 0) + 1;
+      }
+    });
+
+    const data: FrequencyData[] = Object.entries(counts)
+      .map(([date, llamadas]) => {
+        const d = new Date(date);
+        const fecha = `${String(d.getDate()).padStart(2, "0")}-${String(
+          d.getMonth() + 1,
+        ).padStart(2, "0")}-${String(d.getFullYear()).slice(-2)}`;
+        return { fecha, llamadas };
+      })
+      .sort((a, b) => {
+        const [dayA, monthA, yearA] = a.fecha.split("-").map(Number);
+        const [dayB, monthB, yearB] = b.fecha.split("-").map(Number);
+        const dateA = new Date(2000 + yearA, monthA - 1, dayA);
+        const dateB = new Date(2000 + yearB, monthB - 1, dayB);
+        return dateA.getTime() - dateB.getTime();
+      })
+      .slice(-10);
+
+    return data;
+  }, [leads]);
+
+  if (leads.length === 0 || chartData.length === 0) {
+    return (
+      <div className="bg-white p-6">
+        <h2 className="text-xl font-bold text-gray-900 mb-4">
+          Frecuencia de Llamadas
+        </h2>
+        <p className="text-gray-500 text-center py-8">
+          No hay datos disponibles
+        </p>
+      </div>
+    );
+  }
+
+  const maxLlamadas = Math.max(...chartData.map((d) => d.llamadas), 9);
+
+  return (
+    <div className="bg-white p-6">
+      <h2 className="text-xl font-bold text-gray-900 mb-4">
+        Frecuencia de Llamadas
+      </h2>
+
+      <div style={{ height: "250px" }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            data={chartData}
+            margin={{ top: 20, right: 20, bottom: 40, left: 40 }}
+          >
+            <CartesianGrid
+              vertical={false}
+              stroke="#CCCCCC"
+              strokeDasharray="3 3"
+            />
+            <XAxis
+              dataKey="fecha"
+              tick={{ fontSize: 11, fill: "#000000", fontWeight: "bold" }}
+              axisLine={{ stroke: "#000000", strokeWidth: 2 }}
+              tickLine={false}
+              interval={0}
+              label={{
+                value: "Fecha",
+                position: "bottom",
+                fill: "#000000",
+                fontWeight: "bold",
+                fontSize: 12,
+                offset: 0,
+              }}
+            />
+            <YAxis
+              domain={[0, maxLlamadas]}
+              ticks={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}
+              tick={{ fontSize: 11, fill: "#000000", fontWeight: "bold" }}
+              axisLine={{ stroke: "#000000", strokeWidth: 2 }}
+              tickLine={false}
+              width={30}
+              label={{
+                value: "No. Llamadas",
+                angle: -90,
+                position: "left",
+                fill: "#000000",
+                fontWeight: "bold",
+                fontSize: 12,
+              }}
+            />
+            <Line
+              type="linear"
+              dataKey="llamadas"
+              stroke="#6320EE"
+              strokeWidth={2}
+              dot={{
+                r: 5,
+                fill: "#C1E866",
+                stroke: "#6320EE",
+                strokeWidth: 2,
+              }}
+              activeDot={{
+                r: 5,
+                fill: "#C1E866",
+                stroke: "#6320EE",
+                strokeWidth: 2,
+              }}
+              connectNulls={true}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+
+      <div className="mt-4 pt-4 border-t border-gray-100 text-sm text-gray-500 text-center">
+        Total de llamadas: {leads.length}
+      </div>
+    </div>
+  );
+}
