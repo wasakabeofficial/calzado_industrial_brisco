@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router";
-import Layout from "../components/ux/Layout";
-import LeadTable from "../components/ux/LeadTable";
-import LeadDetail from "../components/ux/LeadDetail";
+import { Layout } from "../../presentation/layout";
+import { LeadTable, LeadDetail } from "../../presentation/pages";
 
 export default function AppRoutes() {
   return (

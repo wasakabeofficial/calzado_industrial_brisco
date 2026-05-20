@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import type { Lead } from "../types";
-import { leadService } from "../services/leadsService";
+import type { Lead } from "../../domain/entities";
+import { leadService } from "../../domain/services";
 
 interface UseLeadListResult {
   leads: Lead[];

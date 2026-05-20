@@ -7,7 +7,7 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
-import type { Lead } from "../../types";
+import type { Lead } from "../../../domain/entities";
 
 interface CallFrequencyChartProps {
   leads: Lead[];

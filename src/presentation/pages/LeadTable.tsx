@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router";
-import Table from "../ui/Table";
-import InterestChart from "../ui/InterestChart";
-import CallStatusChart from "../ui/CallStatusChart";
-import ConversionChart from "../ui/ConversionChart";
-import FollowUpActionChart from "../ui/FollowUpActionChart";
-import ObjectionChart from "../ui/ObjectionChart";
-import CallFrequencyChart from "../ui/CallFrequencyChart";
-import { leadTableColumns } from "./leadColumns";
-import { useLeadList } from "../../hooks/useLeadList";
+import { leadTableColumns } from "../components/leadColumns";
+import { useLeadList } from "../hooks";
+import {
+  CallFrequencyChart,
+  CallStatusChart,
+  ConversionChart,
+  FollowUpActionChart,
+  InterestChart,
+  ObjectionChart,
+  Table,
+} from "../components";
 
 export default function LeadTable() {
   const navigate = useNavigate();

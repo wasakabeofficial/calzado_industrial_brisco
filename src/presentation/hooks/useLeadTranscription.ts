@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { leadService } from "../services/leadsService";
+import { leadService } from "../../domain/services";
 
 interface UseLeadTranscriptionResult {
   transcription: string | null;

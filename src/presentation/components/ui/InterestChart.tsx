@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import type { Lead } from "../../types";
+import type { Lead } from "../../../domain/entities";
 
 interface InterestChartProps {
   leads: Lead[];

@@ -1,5 +1,5 @@
-import { supabase } from "../lib/supabase";
-import type { Lead, TranscriptionResponse } from "../types";
+import { supabase } from "../../data/repositories";
+import type { Lead, TranscriptionResponse } from "../entities";
 
 const LEADS_TABLE = "leads_brisco";
 const N8N_WEBHOOK_URL = "https://cesar.n8n-wsk.com/webhook/web_google_drive";
