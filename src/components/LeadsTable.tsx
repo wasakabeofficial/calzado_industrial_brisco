@@ -1,36 +1,11 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { supabase } from "../lib/supabase";
 import Table from "./Table";
 import { leadsColumns } from "./leadsColumns";
-import type { Lead } from "./Lead";
+import { useLeads } from "../hooks/useLeads";
 
 export default function LeadsTable() {
   const navigate = useNavigate();
-  const [leads, setLeads] = useState<Lead[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  async function fetchLeads() {
-    try {
-      const { data, error } = await supabase
-        .from("leads_brisco")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (error) throw error;
-      setLeads(data || []);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Error desconocido");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchLeads();
-  }, []);
+  const { leads, loading, error } = useLeads();
 
   if (loading) {
     return (

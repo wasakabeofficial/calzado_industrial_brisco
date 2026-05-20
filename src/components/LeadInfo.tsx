@@ -1,4 +1,4 @@
-import type { Lead } from "./Lead";
+import type { Lead } from "../types";
 
 interface LeadInfoProps {
   lead: Lead;

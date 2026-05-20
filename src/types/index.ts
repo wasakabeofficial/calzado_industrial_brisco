@@ -19,3 +19,9 @@ export interface Lead {
   descripcion_objeccion_principal: string | null;
   created_at: string;
 }
+
+export interface TranscripcionData {
+  texto?: {
+    transcripcion_limpia?: string;
+  };
+}

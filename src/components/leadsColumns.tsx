@@ -1,4 +1,4 @@
-import type { Lead } from "./Lead";
+import type { Lead } from "../types";
 
 export const leadsColumns = [
   { key: "nombre_completo" as keyof Lead, header: "Cliente" },
