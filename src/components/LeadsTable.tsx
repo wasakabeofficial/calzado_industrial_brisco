@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { supabase } from "../lib/supabase";
 
 interface Lead {
@@ -18,6 +19,7 @@ interface Lead {
 }
 
 export default function LeadsTable() {
+  const navigate = useNavigate();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -76,7 +78,11 @@ export default function LeadsTable() {
         </thead>
         <tbody className="divide-y divide-gray-200">
           {leads.map((lead) => (
-            <tr key={lead.id_registro} className="hover:bg-gray-50">
+            <tr
+              key={lead.id_registro}
+              className="hover:bg-gray-50 cursor-pointer"
+              onClick={() => navigate(`/lead/${lead.id_registro}`)}
+            >
               <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
                 {lead.nombre_completo}
               </td>
