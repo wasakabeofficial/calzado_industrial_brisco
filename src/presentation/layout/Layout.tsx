@@ -9,7 +9,21 @@ export default function Layout({ children }: LayoutProps) {
     <div className="min-h-screen flex flex-col bg-white">
       <nav className="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between">
         <Logo />
-        <div className="flex items-center gap-6"></div>
+        <div className="flex items-center gap-3">
+          <a
+            href="https://neuropoint.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+          >
+            <img
+              src="/logo-n-mini-filled.svg"
+              alt="Neuropoint"
+              className="h-8 w-auto"
+            />
+            <span className="font-semibold tracking-tight" style={{ color: '#4F46E5' }}>neuropoint.ai</span>
+          </a>
+        </div>
       </nav>
 
       <main className="flex-1">{children}</main>
