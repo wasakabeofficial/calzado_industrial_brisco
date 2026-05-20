@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router";
 import LeadInfo from "./LeadInfo";
-import { useLeadDetail, useLeadTranscription } from "../hooks";
+import { useLeadDetail, useLeadTranscription, useLeadAudio } from "../hooks";
 import { Loading } from "../components";
 
 export default function LeadDetail() {
@@ -15,10 +15,17 @@ export default function LeadDetail() {
     fetchTranscription,
     clearTranscription,
   } = useLeadTranscription();
+  const { loading: loadingAudio, fetchAudio } = useLeadAudio();
 
   const handleFetchTranscription = () => {
     if (lead?.vapi_call_id) {
       fetchTranscription(lead.vapi_call_id);
+    }
+  };
+
+  const handleFetchAudio = () => {
+    if (lead?.vapi_call_id) {
+      fetchAudio(lead.vapi_call_id);
     }
   };
 
@@ -48,14 +55,25 @@ export default function LeadDetail() {
         Detalle del Lead
       </h1>
 
-      <button
-        onClick={handleFetchTranscription}
-        disabled={loadingTranscription || !lead?.vapi_call_id}
-        className="mb-6 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center gap-2"
-      >
-        {loadingTranscription && <Loading size="sm" />}
-        {loadingTranscription ? "Cargando..." : "Leer Transcripción"}
-      </button>
+      <div className="flex gap-3 mb-6">
+        <button
+          onClick={handleFetchTranscription}
+          disabled={loadingTranscription || !lead?.vapi_call_id}
+          className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center gap-2"
+        >
+          {loadingTranscription && <Loading size="sm" />}
+          {loadingTranscription ? "Cargando..." : "Leer Transcripción"}
+        </button>
+
+        <button
+          onClick={handleFetchAudio}
+          disabled={loadingAudio || !lead?.vapi_call_id}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center gap-2"
+        >
+          {loadingAudio && <Loading size="sm" />}
+          {loadingAudio ? "Cargando..." : "Oir Llamada"}
+        </button>
+      </div>
 
       <div
         className={
