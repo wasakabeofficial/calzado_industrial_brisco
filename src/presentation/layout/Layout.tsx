@@ -15,9 +15,14 @@ export default function Layout({ children }: LayoutProps) {
       <main className="flex-1">{children}</main>
 
       <footer className="bg-gray-100 py-4 text-center border-t border-gray-200">
-        <p className="text-gray-600 text-sm">
+        <a
+          href="https://neuropoint.ai"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-gray-600 text-sm hover:text-blue-600 hover:underline cursor-pointer transition-colors"
+        >
           Diseñado por el equipo de Neuropoint.ai
-        </p>
+        </a>
       </footer>
     </div>
   );

@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { LoadingOverlay } from "./Loading";
 
 interface Column<T> {
   key: keyof T;
@@ -52,12 +53,9 @@ export default function Table<T>({
     setCurrentPage(page);
   };
 
-  if (loading) {
-    return <div className="p-4">Cargando...</div>;
-  }
-
   return (
-    <div className="flex flex-col h-150">
+    <div className="flex flex-col h-150 relative">
+      {loading && <LoadingOverlay message="Cargando datos..." />}
       <div className="flex-1 overflow-auto">
         <table className="min-w-full bg-white border border-gray-200">
           <thead className="bg-gray-50 sticky top-0">

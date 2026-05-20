@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router";
 import LeadInfo from "./LeadInfo";
 import { useLeadDetail, useLeadTranscription } from "../hooks";
+import { Loading } from "../components";
 
 export default function LeadDetail() {
   const { id } = useParams<{ id: string }>();
@@ -21,7 +22,16 @@ export default function LeadDetail() {
     }
   };
 
-  if (loading) return <div className="p-8">Cargando...</div>;
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-100">
+        <Loading size="lg" />
+        <p className="mt-4 text-sm text-gray-500 font-medium">
+          Cargando lead...
+        </p>
+      </div>
+    );
+  }
   if (error) return <div className="p-8 text-red-500">Error: {error}</div>;
   if (!lead) return <div className="p-8">Lead no encontrado</div>;
 
@@ -41,8 +51,9 @@ export default function LeadDetail() {
       <button
         onClick={handleFetchTranscription}
         disabled={loadingTranscription || !lead?.vapi_call_id}
-        className="mb-6 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
+        className="mb-6 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center gap-2"
       >
+        {loadingTranscription && <Loading size="sm" />}
         {loadingTranscription ? "Cargando..." : "Leer Transcripción"}
       </button>
 
