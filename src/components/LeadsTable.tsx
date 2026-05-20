@@ -45,94 +45,145 @@ export default function LeadsTable() {
     fetchLeads();
   }, []);
 
-  if (loading) return <div className="p-4">Cargando...</div>;
-  if (error) return <div className="p-4 text-red-500">Error: {error}</div>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center p-12 text-sm font-medium text-gray-500">
+        Cargando registros...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-4 mx-6 my-4 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm">
+        Error: {error}
+      </div>
+    );
+  }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full bg-white border border-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Cliente
-            </th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Empresa
-            </th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Teléfono
-            </th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Status Llamada
-            </th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Estado Proceso
-            </th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Interés
-            </th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Fecha
-            </th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-200">
-          {leads.map((lead) => (
-            <tr
-              key={lead.id_registro}
-              className="hover:bg-gray-50 cursor-pointer"
-              onClick={() => navigate(`/lead/${lead.id_registro}`)}
-            >
-              <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
-                {lead.nombre_completo}
-              </td>
-              <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
-                {lead.nombre_empresa}
-              </td>
-              <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
-                {lead.telefono}
-              </td>
-              <td className="px-4 py-4 whitespace-nowrap text-sm">
-                <span
-                  className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    lead.vapi_call_status === "completed"
-                      ? "bg-green-100 text-green-800"
-                      : lead.vapi_call_status === "failed"
-                        ? "bg-red-100 text-red-800"
-                        : "bg-gray-100 text-gray-800"
-                  }`}
+    <div className="w-full px-6 py-4 mx-auto max-w-8xl">
+      <div className="overflow-hidden bg-white border border-gray-200 shadow-sm rounded-xl">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-full divide-y divide-gray-200 border-collapse">
+            <thead className="bg-gray-50/70">
+              <tr>
+                <th
+                  scope="col"
+                  className="px-6 py-3.5 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
                 >
-                  {lead.vapi_call_status}
-                </span>
-              </td>
-              <td className="px-4 py-4 whitespace-nowrap text-sm">
-                <span
-                  className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    lead.status_procesos === "PENDIENTE"
-                      ? "bg-yellow-100 text-yellow-800"
-                      : lead.status_procesos === "COMPLETADO"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-blue-100 text-blue-800"
-                  }`}
+                  Cliente
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3.5 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
                 >
-                  {lead.status_procesos}
-                </span>
-              </td>
-              <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
-                {lead.interes_cliente || "N/A"}
-              </td>
-              <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                {new Date(lead.created_at).toLocaleDateString("es-MX")}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {leads.length === 0 && (
-        <div className="p-4 text-center text-gray-500">
-          No hay registros disponibles
+                  Empresa
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3.5 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                >
+                  Teléfono
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3.5 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                >
+                  Status Llamada
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3.5 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                >
+                  Estado Proceso
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3.5 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                >
+                  Interés
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3.5 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                >
+                  Fecha
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-100">
+              {leads.map((lead) => (
+                <tr
+                  key={lead.id_registro}
+                  className="transition-colors duration-150 ease-in-out hover:bg-gray-50/80 cursor-pointer"
+                  onClick={() => navigate(`/lead/${lead.id_registro}`)}
+                >
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {lead.nombre_completo}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {lead.nombre_empresa}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 font-mono tracking-tight">
+                    {lead.telefono}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <span
+                      className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium capitalize border ${
+                        lead.vapi_call_status === "completed"
+                          ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                          : lead.vapi_call_status === "failed"
+                            ? "bg-red-50 text-red-700 border-red-200"
+                            : "bg-gray-50 text-gray-600 border-gray-200"
+                      }`}
+                    >
+                      {lead.vapi_call_status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <span
+                      className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium uppercase border ${
+                        lead.status_procesos === "PENDIENTE"
+                          ? "bg-amber-50 text-amber-700 border-amber-200"
+                          : lead.status_procesos === "COMPLETADO" ||
+                              lead.status_procesos === "PROCESADO"
+                            ? "bg-blue-50 text-blue-700 border-blue-200"
+                            : "bg-gray-50 text-gray-600 border-gray-200"
+                      }`}
+                    >
+                      {lead.status_procesos}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <span
+                      className={`text-xs font-semibold ${
+                        lead.interes_cliente?.toUpperCase() === "ALTO"
+                          ? "text-orange-600"
+                          : "text-gray-700"
+                      }`}
+                    >
+                      {lead.interes_cliente || "N/A"}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {new Date(lead.created_at).toLocaleDateString("es-MX", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      )}
+        {leads.length === 0 && (
+          <div className="p-8 text-center text-sm text-gray-400 bg-gray-50/50">
+            No hay registros de leads disponibles en este momento.
+          </div>
+        )}
+      </div>
     </div>
   );
 }
