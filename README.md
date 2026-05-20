@@ -3,7 +3,6 @@
 ![CI/CD](https://github.com/wasakabeofficial/calzado_industrial_brisco/actions/workflows/ci.yml/badge.svg)
 [![Tests](https://img.shields.io/github/actions/workflow/status/wasakabeofficial/calzado_industrial_brisco/ci.yml?label=Tests)](https://github.com/wasakabeofficial/calzado_industrial_brisco/actions)
 [![Coverage](https://codecov.io/gh/wasakabeofficial/calzado_industrial_brisco/branch/main/graph/badge.svg)](https://codecov.io/gh/wasakabeofficial/calzado_industrial_brisco)
-[![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=wasakabeofficial_calzado_industrial_brisco&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=wasakabeofficial_calzado_industrial_brisco)
 
 Dashboard de gestión de leads para Calzado Industrial Brisco, una empresa mexicana dedicada a la fabricación y distribución de calzado industrial.
 
@@ -104,7 +103,6 @@ npm run lint         # Linting
 - **TypeScript** - Tipado estático
 - **GitHub Actions** - CI/CD automatizado
 - **Codecov** - Reports de cobertura
-- **SonarCloud** - Análisis estático de código
 
 ## 👥 Equipo
 
