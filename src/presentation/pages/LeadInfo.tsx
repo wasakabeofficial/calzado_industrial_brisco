@@ -9,27 +9,24 @@ export default function LeadInfo({ lead }: LeadInfoProps) {
     <div className="bg-white border border-gray-200 rounded-lg p-6">
       <div className="grid grid-cols-2 gap-6">
         <div>
-          <p className="text-sm text-gray-500">Full Name</p>
+          <p className="text-sm text-gray-500">Nombre Completo</p>
           <p className="text-lg font-medium text-gray-900">
             {lead.nombre_completo}
           </p>
         </div>
         <div>
-          <p className="text-sm text-gray-500">Phone</p>
+          <p className="text-sm text-gray-500">No. Telefono</p>
           <p className="text-lg font-medium text-gray-900">{lead.telefono}</p>
         </div>
         <div>
-          <p className="text-sm text-gray-500">Company</p>
+          <p className="text-sm text-gray-500">Organización</p>
           <p className="text-lg font-medium text-gray-900">
             {lead.nombre_empresa}
           </p>
         </div>
+
         <div>
-          <p className="text-sm text-gray-500">Client ID</p>
-          <p className="text-lg font-medium text-gray-900">{lead.id_cliente}</p>
-        </div>
-        <div>
-          <p className="text-sm text-gray-500">Call Status</p>
+          <p className="text-sm text-gray-500">Estado de Llamada</p>
           <span
             className={`px-2 py-1 rounded-full text-xs font-medium ${
               lead.vapi_call_status === "completed"
@@ -43,7 +40,7 @@ export default function LeadInfo({ lead }: LeadInfoProps) {
           </span>
         </div>
         <div>
-          <p className="text-sm text-gray-500">Process Status</p>
+          <p className="text-sm text-gray-500">Estado de Proceso</p>
           <span
             className={`px-2 py-1 rounded-full text-xs font-medium ${
               lead.status_procesos === "PENDIENTE"
@@ -55,26 +52,26 @@ export default function LeadInfo({ lead }: LeadInfoProps) {
           </span>
         </div>
         <div>
-          <p className="text-sm text-gray-500">Last Purchase</p>
+          <p className="text-sm text-gray-500">Fecha Última Compra</p>
           <p className="text-lg text-gray-900">
             {lead.fecha_ultima_compra || "N/A"}
           </p>
         </div>
         <div>
-          <p className="text-sm text-gray-500">Last Product Purchased</p>
+          <p className="text-sm text-gray-500">Producto Comprado</p>
           <p className="text-lg text-gray-900">
             {lead.producto_ultima_compra || "N/A"}
           </p>
         </div>
         <div className="col-span-2">
-          <p className="text-sm text-gray-500">Client Interest</p>
+          <p className="text-sm text-gray-500">Interés del Cliente</p>
           <p className="text-lg text-gray-900">
             {lead.interes_cliente || "N/A"}
           </p>
         </div>
         {lead.descripcion_interes_cliente && (
           <div className="col-span-2">
-            <p className="text-sm text-gray-500">Interest Description</p>
+            <p className="text-sm text-gray-500">Descripción del Interés</p>
             <p className="text-lg text-gray-900">
               {lead.descripcion_interes_cliente}
             </p>
