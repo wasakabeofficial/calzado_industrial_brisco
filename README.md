@@ -1,73 +1,91 @@
-# React + TypeScript + Vite
+# Calzado Industrial Brisco - Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Dashboard de gestión de leads para Calzado Industrial Brisco, una empresa mexicana dedicada a la fabricación y distribución de calzado industrial.
 
-Currently, two official plugins are available:
+## 🚀Características
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Gestión de Leads** - Visualización y seguimiento de clientes potenciales
+- **Filtros Avanzados** - Filtrado por proceso, empresa, cliente, fecha e interés
+- **Transcripciones** - Obtención de transcripciones de llamadas via webhook n8n
+- **Visualizaciones** - 6 gráficos interactivos con Recharts
+- **Diseño Responsivo** - Interfaz adaptable a diferentes tamaños de pantalla
 
-## React Compiler
+## 🛠️Tecnologías
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Categoría | Tecnología |
+|-----------|-------------|
+| Frontend | React 19 + TypeScript |
+| Build Tool | Vite 8 |
+| Estilos | Tailwind CSS v4 |
+| Base de Datos | Supabase |
+| Gráficos | Recharts |
+| Orquestación | n8n (webhooks) |
 
-## Expanding the ESLint configuration
+## 📁Estructura del Proyecto
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── domain/              # Capa de dominio
+│   ├── entities/       # Tipos e interfaces (Lead, LeadFilters)
+│   └── services/       # Lógica de negocio (LeadService)
+├── data/               # Capa de datos
+│   └── repositories/  # Cliente de Supabase
+├── infrastructure/    # Capa de infraestructura
+│   └── routes/        # Configuración de rutas
+└── presentation/       # Capa de presentación
+    ├── components/    # Componentes UI (charts, tabla, filtros)
+    ├── hooks/         # Hooks personalizados
+    ├── layout/        # Layout y componentes de diseño
+    └── pages/         # Páginas principales
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ⚙️Configuración
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Variables de Entorno
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Crea un archivo `.env` en la raíz del proyecto:
+
+```env
+VITE_SUPABASE_URL=tu_supabase_url
+VITE_SUPABASE_KEY=tu_supabase_anon_key
 ```
+
+### Instalación
+
+```bash
+npm install
+```
+
+### Desarrollo
+
+```bash
+npm run dev
+```
+
+### Producción
+
+```bash
+npm run build
+```
+
+## 📊Gráficos Disponibles
+
+1. **InterestChart** - Distribución por nivel de interés
+2. **CallStatusChart** - Estado de las llamadas
+3. **ConversionChart** - Tasa de conversión
+4. **FollowUpActionChart** - Acciones de seguimiento
+5. **ObjectionChart** - Objeciones principales
+6. **CallFrequencyChart** - Frecuencia de llamadas (formato polígono)
+
+## 🔗Integraciones
+
+- **Supabase** - Base de datos PostgreSQL para almacenamiento de leads
+- **n8n Webhook** - Integración para obtener transcripciones de llamadas VAPI
+
+## 📝Licencia
+
+Desarrollado por [Neuropoint.ai](https://neuropoint.ai)
+
+---
+
+*Dashboard para Calzado Industrial Brisco - México*
