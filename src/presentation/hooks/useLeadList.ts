@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import type { Lead } from "../../domain/entities";
+import type { Lead, LeadFilters } from "../../domain/entities";
+import { emptyFilters } from "../../domain/entities";
 import { leadService } from "../../domain/services";
 
 interface UseLeadListResult {
@@ -9,7 +10,9 @@ interface UseLeadListResult {
   refetch: () => void;
 }
 
-export function useLeadList(): UseLeadListResult {
+export function useLeadList(
+  filters: LeadFilters = emptyFilters,
+): UseLeadListResult {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,14 +21,14 @@ export function useLeadList(): UseLeadListResult {
     try {
       setLoading(true);
       setError(null);
-      const data = await leadService.getAllLeads();
+      const data = await leadService.getAllLeads(filters);
       setLeads(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error desconocido");
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [filters]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
