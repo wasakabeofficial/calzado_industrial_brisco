@@ -1,15 +1,15 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Lead } from "../types";
-import { leadsService } from "../services/leadsService";
+import { leadService } from "../services/leadsService";
 
-interface UseLeadsResult {
+interface UseLeadListResult {
   leads: Lead[];
   loading: boolean;
   error: string | null;
   refetch: () => void;
 }
 
-export function useLeads(): UseLeadsResult {
+export function useLeadList(): UseLeadListResult {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,10 +18,10 @@ export function useLeads(): UseLeadsResult {
     try {
       setLoading(true);
       setError(null);
-      const data = await leadsService.getAll();
+      const data = await leadService.getAllLeads();
       setLeads(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error desconocido");
+      setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
       setLoading(false);
     }

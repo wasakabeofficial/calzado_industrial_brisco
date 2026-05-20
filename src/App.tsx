@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import Logo from "./components/Logo";
-import LeadsTable from "./components/LeadsTable";
+import LeadTable from "./components/LeadTable";
 import LeadDetail from "./components/LeadDetail";
 
 function Layout({ children }: { children: React.ReactNode }) {
@@ -15,7 +15,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 
       <footer className="bg-gray-100 py-4 text-center border-t border-gray-200">
         <p className="text-gray-600 text-sm">
-          Diseñado por el equipo de Neuropoint.ai
+          Designed by Neuropoint.ai team
         </p>
       </footer>
     </div>
@@ -30,7 +30,7 @@ export default function App() {
           path="/"
           element={
             <Layout>
-              <LeadsTable />
+              <LeadTable />
             </Layout>
           }
         />

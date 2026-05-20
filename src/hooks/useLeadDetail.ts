@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Lead } from "../types";
-import { leadsService } from "../services/leadsService";
+import { leadService } from "../services/leadsService";
 
 interface UseLeadDetailResult {
   lead: Lead | null;
@@ -9,7 +9,7 @@ interface UseLeadDetailResult {
   fetchLead: () => Promise<void>;
 }
 
-export function useLeadDetail(id: number): UseLeadDetailResult {
+export function useLeadDetail(leadId: number): UseLeadDetailResult {
   const [lead, setLead] = useState<Lead | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,14 +18,14 @@ export function useLeadDetail(id: number): UseLeadDetailResult {
     try {
       setLoading(true);
       setError(null);
-      const data = await leadsService.getById(id);
+      const data = await leadService.getLeadById(leadId);
       setLead(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error desconocido");
+      setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
       setLoading(false);
     }
-  }, [id]);
+  }, [leadId]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect

@@ -1,17 +1,17 @@
 import { useNavigate } from "react-router";
 import Table from "./Table";
-import { leadsColumns } from "./leadsColumns";
-import { useLeads } from "../hooks/useLeads";
+import { leadTableColumns } from "./leadColumns";
+import { useLeadList } from "../hooks/useLeadList";
 
-export default function LeadsTable() {
+export default function LeadTable() {
   const navigate = useNavigate();
-  const { leads, loading, error } = useLeads();
+  const { leads, loading, error } = useLeadList();
 
   if (loading) {
     return (
       <div className="w-full px-6 py-4 mx-auto max-w-8xl">
         <div className="p-8 text-center text-sm text-gray-500 bg-gray-50 rounded-xl">
-          Cargando registros...
+          Loading records...
         </div>
       </div>
     );
@@ -31,11 +31,11 @@ export default function LeadsTable() {
     <div className="w-full px-6 py-4 mx-auto max-w-8xl">
       <div className="overflow-hidden bg-white border border-gray-200 shadow-sm rounded-xl">
         <Table
-          columns={leadsColumns}
+          columns={leadTableColumns}
           data={leads}
           onRowClick={(lead) => navigate(`/lead/${lead.id_registro}`)}
           loading={loading}
-          emptyMessage="No hay registros de leads disponibles en este momento."
+          emptyMessage="No lead records available at this time."
         />
       </div>
     </div>

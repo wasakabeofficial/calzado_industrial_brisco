@@ -1,13 +1,13 @@
 import { supabase } from "../lib/supabase";
 import type { Lead, TranscripcionData } from "../types";
 
-const TABLA_LEADS = "leads_brisco";
-const WEBHOOK_N8N = "https://cesar.n8n-wsk.com/webhook/web_google_drive";
+const LEADS_TABLE = "leads_brisco";
+const N8N_WEBHOOK_URL = "https://cesar.n8n-wsk.com/webhook/web_google_drive";
 
-export const leadsService = {
-  async getAll(): Promise<Lead[]> {
+export const leadService = {
+  async getAllLeads(): Promise<Lead[]> {
     const { data, error } = await supabase
-      .from(TABLA_LEADS)
+      .from(LEADS_TABLE)
       .select("*")
       .order("created_at", { ascending: false });
 
@@ -15,27 +15,25 @@ export const leadsService = {
     return data || [];
   },
 
-  async getById(id: number): Promise<Lead> {
+  async getLeadById(leadId: number): Promise<Lead> {
     const { data, error } = await supabase
-      .from(TABLA_LEADS)
+      .from(LEADS_TABLE)
       .select("*")
-      .eq("id_registro", id)
+      .eq("id_registro", leadId)
       .single();
 
     if (error) throw error;
     return data;
   },
 
-  async getTranscripcion(callId: string): Promise<string> {
-    const response = await fetch(`${WEBHOOK_N8N}?call_id=${callId}`);
+  async getLeadTranscription(callId: string): Promise<string> {
+    const response = await fetch(`${N8N_WEBHOOK_URL}?call_id=${callId}`);
 
     if (!response.ok) {
       throw new Error(`Error ${response.status}: ${response.statusText}`);
     }
 
     const data: TranscripcionData = await response.json();
-    return (
-      data.texto?.transcripcion_limpia || "No hay transcripción disponible"
-    );
+    return data.texto?.transcripcion_limpia || "No transcription available";
   },
 };
