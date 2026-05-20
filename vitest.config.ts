@@ -18,8 +18,9 @@ export default defineConfig({
     exclude: ['node_modules', 'dist'],
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'json', 'html'],
+      reporter: ['text', 'json', 'html', 'lcovonly'],
       include: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts'],
+      reportsDirectory: 'coverage',
     },
   },
 })
