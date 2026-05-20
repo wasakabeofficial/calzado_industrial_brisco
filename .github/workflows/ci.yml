@@ -110,6 +110,15 @@ jobs:
         run: npm ci
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v5.0.0
+        uses: sonarsource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=wasakabeofficial
+            -Dsonar.projectKey=wasakabeofficial_calzado_industrial_brisco
+            -Dsonar.sources=src
+            -Dsonar.tests=src/test
+            -Dsonar.test.inclusions=src/test/**/*.test.ts,src/test/**/*.test.tsx
+            -Dsonar.exclusions=node_modules/**,dist/**
+            -Dsonar.sourceEncoding=UTF-8
