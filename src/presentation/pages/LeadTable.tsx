@@ -43,6 +43,8 @@ export default function LeadTable() {
     );
   }
 
+  
+
   return (
     <div className="w-full px-6 py-4 mx-auto max-w-8xl space-y-6">
       <LeadFiltersBar filters={filters} onChange={setFilters} />
