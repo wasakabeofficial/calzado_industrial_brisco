@@ -1,13 +1,11 @@
-import { supabase } from "./lib/supabase";
+import Logo from "./components/Logo";
 
 export default function App() {
-  supabase.auth.getSession().then(({ error }) => {
-    if (error) {
-      console.error("❌ Error de conexión:", error.message);
-    } else {
-      console.log("✅ Conectado a Supabase correctamente");
-    }
-  });
+  return (
+    <nav className="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between">
+      <Logo />
 
-  return <div>Hello, World!</div>;
+      <div className="flex items-center gap-6"></div>
+    </nav>
+  );
 }
