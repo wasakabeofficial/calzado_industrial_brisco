@@ -59,6 +59,41 @@ function filterLeads(
     ) {
       return false;
     }
+
+    // Filtro por duración
+    if (filters.duracion) {
+      const d = lead.duracion_llamada;
+      if (d === undefined || d === null || d === "" || d === "N/A") {
+        return false;
+      }
+      const valor = typeof d === "number" ? d : parseFloat(d);
+      if (isNaN(valor) || valor < 0) return false;
+      const min = Math.floor(valor);
+      const seg = Math.round((valor - min) * 100);
+      const totalSeg = min * 60 + seg;
+
+      const ranges: Record<string, [number, number]> = {
+        "0-30s": [0, 30],
+        "31-60s": [31, 60],
+        "1-2 min": [61, 120],
+        "2-5 min": [121, 300],
+        "5+ min": [301, Infinity],
+      };
+
+      const [lo, hi] = ranges[filters.duracion] ?? [-1, -1];
+      if (totalSeg < lo || totalSeg > hi) return false;
+    }
+
+    // Filtro por razón de terminación
+    if (
+      filters.razonTerminado &&
+      !(lead.razon_terminado_llamada ?? "")
+        .toLowerCase()
+        .includes(filters.razonTerminado.toLowerCase())
+    ) {
+      return false;
+    }
+
     return true;
   });
 }

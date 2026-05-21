@@ -13,6 +13,8 @@ describe("LeadFiltersBar Component", () => {
     fechaInicio: "",
     fechaFin: "",
     interes: "",
+    duracion: "",
+    razonTerminado: "",
   };
 
   afterEach(() => {

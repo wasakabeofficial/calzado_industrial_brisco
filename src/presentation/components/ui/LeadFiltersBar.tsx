@@ -60,7 +60,7 @@ export function LeadFiltersBar({ filters, onChange }: LeadFiltersBarProps) {
       </button>
 
       {isExpanded && (
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Proceso */}
           <div>
             <label className="block text-xs font-medium text-gray-500 mb-1">
@@ -77,6 +77,58 @@ export function LeadFiltersBar({ filters, onChange }: LeadFiltersBarProps) {
               <option value="convirtio">Convirtió</option>
               <option value="no_interes">Sin Interés</option>
             </select>
+          </div>
+
+          {/* Interés */}
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">
+              Interés
+            </label>
+            <select
+              value={localFilters.interes}
+              onChange={(e) => handleChange("interes", e.target.value)}
+              className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="">Todos</option>
+              <option value="alto">Alto</option>
+              <option value="medio">Medio</option>
+              <option value="bajo">Bajo</option>
+              <option value="ninguno">Ninguno</option>
+            </select>
+          </div>
+
+          {/* Duración */}
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">
+              Duración Llamada
+            </label>
+            <select
+              value={localFilters.duracion}
+              onChange={(e) => handleChange("duracion", e.target.value)}
+              className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="">Todas</option>
+              <option value="0-30s">0-30s</option>
+              <option value="31-60s">31-60s</option>
+              <option value="1-2 min">1-2 min</option>
+              <option value="2-5 min">2-5 min</option>
+              <option value="5+ min">5+ min</option>
+            </select>
+          </div>
+
+          {/* Razón Terminación */}
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">
+              Razón Terminación
+            </label>
+            <input
+              type="text"
+              placeholder="Buscar razón..."
+              value={localFilters.razonTerminado}
+              onChange={(e) => handleChange("razonTerminado", e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleApply()}
+              className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
           </div>
 
           {/* Empresa */}
@@ -135,26 +187,8 @@ export function LeadFiltersBar({ filters, onChange }: LeadFiltersBarProps) {
             />
           </div>
 
-          {/* Interés */}
-          <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
-              Interés
-            </label>
-            <select
-              value={localFilters.interes}
-              onChange={(e) => handleChange("interes", e.target.value)}
-              className="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="">Todos</option>
-              <option value="alto">Alto</option>
-              <option value="medio">Medio</option>
-              <option value="bajo">Bajo</option>
-              <option value="ninguno">Ninguno</option>
-            </select>
-          </div>
-
           {/* Botones Aplicar / Limpiar */}
-          <div className="flex items-end gap-2">
+          <div className="flex items-end gap-2 lg:col-span-4">
             <button
               onClick={handleApply}
               disabled={!hasLocalFilters}

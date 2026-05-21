@@ -57,6 +57,8 @@ describe("useLeadList Hook", () => {
       fechaInicio: "",
       fechaFin: "",
       interes: "",
+      duracion: "",
+      razonTerminado: "",
     };
 
     const { result } = renderHook(() => useLeadList(filters));

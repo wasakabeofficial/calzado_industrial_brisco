@@ -5,6 +5,8 @@ export interface LeadFilters {
   fechaInicio: string;
   fechaFin: string;
   interes: string;
+  duracion: string;
+  razonTerminado: string;
 }
 
 export const emptyFilters: LeadFilters = {
@@ -14,4 +16,6 @@ export const emptyFilters: LeadFilters = {
   fechaInicio: "",
   fechaFin: "",
   interes: "",
+  duracion: "",
+  razonTerminado: "",
 };
