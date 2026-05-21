@@ -10,6 +10,9 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  define: {
+    'import.meta.env.VITE_GOOGLE_DRIVE_BASE_URL': JSON.stringify('https://drive.google.com/file/d/'),
+  },
   test: {
     globals: true,
     environment: 'jsdom',

@@ -9,3 +9,4 @@ export { LeadFiltersBar } from "./ui/LeadFiltersBar";
 export { Loading, LoadingOverlay } from "./ui/Loading";
 
 export { leadTableColumns } from "./leadColumns";
+export { campanaTableColumns } from "./campanaColumns";

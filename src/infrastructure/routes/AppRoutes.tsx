@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router";
 import { Layout } from "../../presentation/layout";
-import { Dashboard, Clientes, LeadDetail } from "../../presentation/pages";
+import { Dashboard, Clientes, Campanas, LeadDetail } from "../../presentation/pages";
 
 export default function AppRoutes() {
   return (
@@ -18,6 +18,14 @@ export default function AppRoutes() {
         element={
           <Layout>
             <Clientes />
+          </Layout>
+        }
+      />
+      <Route
+        path="/campanas"
+        element={
+          <Layout>
+            <Campanas />
           </Layout>
         }
       />
