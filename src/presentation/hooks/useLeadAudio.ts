@@ -25,7 +25,7 @@ export function useLeadAudio(): UseLeadAudioResult {
         const audioId = urlParts[1] ? urlParts[1].split("&")[0] : null;
 
         if (audioId) {
-          const baseUrl = (GOOGLE_DRIVE_BASE_URL || 'https://drive.google.com/file/d/').replace(/\/$/, '');
+          const baseUrl = GOOGLE_DRIVE_BASE_URL.replace(/\/$/, "");
           const gdUrl = `${baseUrl}/${audioId}/view`;
           window.open(gdUrl, "_blank", "noopener,noreferrer");
         }

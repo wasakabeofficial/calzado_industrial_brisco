@@ -43,8 +43,6 @@ export default function LeadTable() {
     );
   }
 
-  
-
   return (
     <div className="w-full px-6 py-4 mx-auto max-w-8xl space-y-6">
       <LeadFiltersBar filters={filters} onChange={setFilters} />
@@ -65,7 +63,7 @@ export default function LeadTable() {
         <Table
           columns={leadTableColumns}
           data={leads}
-          onRowClick={(lead) => navigate(`/lead/${lead.id_registro}`)}
+          onRowClick={(lead) => navigate(`/lead/${lead.id_cliente}`)}
           loading={loading}
           emptyMessage="No hay registros de leads disponibles en este momento."
         />

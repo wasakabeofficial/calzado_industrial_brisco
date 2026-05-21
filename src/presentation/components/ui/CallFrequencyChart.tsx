@@ -7,10 +7,10 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
-import type { Lead } from "../../../domain/entities";
+import type { ContactoBriscoResponse } from "../../../domain/entities";
 
 interface CallFrequencyChartProps {
-  leads: Lead[];
+  leads: ContactoBriscoResponse[];
 }
 
 interface FrequencyData {

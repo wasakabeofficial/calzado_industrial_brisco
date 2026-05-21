@@ -1,8 +1,8 @@
 import { useMemo } from "react";
-import type { Lead } from "../../../domain/entities";
+import type { ContactoBriscoResponse } from "../../../domain/entities";
 
 interface ObjectionChartProps {
-  leads: Lead[];
+  leads: ContactoBriscoResponse[];
 }
 
 interface ObjectionData {
@@ -16,7 +16,7 @@ export default function ObjectionChart({ leads }: ObjectionChartProps) {
     const counts: Record<string, number> = {};
 
     leads.forEach((lead) => {
-      const objection = lead.objeccion_principal || "NINGUNA";
+      const objection = lead.objeccion_principal ?? "NINGUNA";
       counts[objection] = (counts[objection] || 0) + 1;
     });
 

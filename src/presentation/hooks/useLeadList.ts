@@ -1,10 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
-import type { Lead, LeadFilters } from "../../domain/entities";
+import type {
+  ContactoBriscoResponse,
+  LeadFilters,
+} from "../../domain/entities";
 import { emptyFilters } from "../../domain/entities";
 import { leadService } from "../../domain/services";
 
 interface UseLeadListResult {
-  leads: Lead[];
+  leads: ContactoBriscoResponse[];
   loading: boolean;
   error: string | null;
   refetch: () => void;
@@ -13,7 +16,7 @@ interface UseLeadListResult {
 export function useLeadList(
   filters: LeadFilters = emptyFilters,
 ): UseLeadListResult {
-  const [leads, setLeads] = useState<Lead[]>([]);
+  const [leads, setLeads] = useState<ContactoBriscoResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

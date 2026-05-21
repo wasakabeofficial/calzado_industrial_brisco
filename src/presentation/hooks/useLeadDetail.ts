@@ -1,16 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
-import type { Lead } from "../../domain/entities";
+import type { ContactoBriscoResponse } from "../../domain/entities";
 import { leadService } from "../../domain/services";
 
 interface UseLeadDetailResult {
-  lead: Lead | null;
+  lead: ContactoBriscoResponse | null;
   loading: boolean;
   error: string | null;
-  fetchLead: () => Promise<void>;
+  refetch: () => void;
 }
 
 export function useLeadDetail(leadId: number): UseLeadDetailResult {
-  const [lead, setLead] = useState<Lead | null>(null);
+  const [lead, setLead] = useState<ContactoBriscoResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,5 +32,5 @@ export function useLeadDetail(leadId: number): UseLeadDetailResult {
     fetchLead();
   }, [fetchLead]);
 
-  return { lead, loading, error, fetchLead };
+  return { lead, loading, error, refetch: fetchLead };
 }

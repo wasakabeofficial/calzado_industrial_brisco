@@ -7,7 +7,11 @@ export function Loading({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
 
   return (
     <div className="flex items-center justify-center">
-      <div role="status" className={`${sizes[size]} relative`} aria-label="Cargando">
+      <div
+        role="status"
+        className={`${sizes[size]} relative`}
+        aria-label="Cargando"
+      >
         <div className="absolute inset-0 rounded-full border-2 border-gray-200" />
         <div className="absolute inset-0 rounded-full border-2 border-t-blue-600 border-r-transparent border-b-transparent border-l-transparent animate-spin" />
         <svg

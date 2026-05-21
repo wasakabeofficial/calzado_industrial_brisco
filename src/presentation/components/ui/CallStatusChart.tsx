@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import type { Lead } from "../../../domain/entities";
+import type { ContactoBriscoResponse } from "../../../domain/entities";
 interface CallStatusChartProps {
-  leads: Lead[];
+  leads: ContactoBriscoResponse[];
 }
 
 interface StatusData {
@@ -15,7 +15,7 @@ export default function CallStatusChart({ leads }: CallStatusChartProps) {
     const counts: Record<string, number> = {};
 
     leads.forEach((lead) => {
-      const status = lead.vapi_call_status || "Desconocido";
+      const status = lead.vapi_call_status ?? "Desconocido";
       counts[status] = (counts[status] || 0) + 1;
     });
 

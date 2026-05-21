@@ -1,8 +1,8 @@
 import { useMemo } from "react";
-import type { Lead } from "../../../domain/entities";
+import type { ContactoBriscoResponse } from "../../../domain/entities";
 
 interface FollowUpActionChartProps {
-  leads: Lead[];
+  leads: ContactoBriscoResponse[];
 }
 
 interface ActionData {
@@ -18,7 +18,7 @@ export default function FollowUpActionChart({
     const counts: Record<string, number> = {};
 
     leads.forEach((lead) => {
-      const action = lead.accion_seguimiento || "SIN_ACCION";
+      const action = lead.accion_seguimiento ?? "SIN_ACCION";
       counts[action] = (counts[action] || 0) + 1;
     });
 

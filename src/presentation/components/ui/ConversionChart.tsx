@@ -1,8 +1,8 @@
 import { useMemo } from "react";
-import type { Lead } from "../../../domain/entities";
+import type { ContactoBriscoResponse } from "../../../domain/entities";
 
 interface ConversionChartProps {
-  leads: Lead[];
+  leads: ContactoBriscoResponse[];
 }
 
 interface ConversionData {

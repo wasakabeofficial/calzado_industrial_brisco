@@ -1,7 +1,10 @@
-import { supabase } from "../../data/repositories";
-import type { Lead, LeadFilters, TranscriptionResponse } from "../entities";
+import { n8nClient } from "../../data/repositories";
+import type {
+  ContactoBriscoResponse,
+  LeadFilters,
+  TranscriptionResponse,
+} from "../entities";
 
-const LEADS_TABLE = import.meta.env.VITE_LEADS_TABLE || "leads_brisco";
 const N8N_WEBHOOK_URL = import.meta.env.VITE_N8N_WEBHOOK_URL;
 const N8N_AUDIO_WEBHOOK_URL = import.meta.env.VITE_N8N_AUDIO_WEBHOOK_URL;
 
@@ -13,44 +16,70 @@ export interface AudioResponse {
   };
 }
 
-export const leadService = {
-  async getAllLeads(filters: LeadFilters = {} as LeadFilters): Promise<Lead[]> {
-    let query = supabase.from(LEADS_TABLE).select("*");
+function filterLeads(
+  leads: ContactoBriscoResponse[],
+  filters: LeadFilters,
+): ContactoBriscoResponse[] {
+  return leads.filter((lead) => {
+    const status = lead.status_procesos ?? "";
+    const empresa = lead.nombre_empresa ?? "";
+    const cliente = lead.nombre_completo ?? "";
+    const interes = lead.interes_cliente ?? "";
+    const createdAt =
+      lead.created_at ?? lead.fecha_ultima_compra ?? new Date().toISOString();
 
-    if (filters.proceso) {
-      query = query.ilike("status_procesos", `%${filters.proceso}%`);
+    if (
+      filters.proceso &&
+      !status.toLowerCase().includes(filters.proceso.toLowerCase())
+    ) {
+      return false;
     }
-    if (filters.empresa) {
-      query = query.ilike("nombre_empresa", `%${filters.empresa}%`);
+    if (
+      filters.empresa &&
+      !empresa.toLowerCase().includes(filters.empresa.toLowerCase())
+    ) {
+      return false;
     }
-    if (filters.cliente) {
-      query = query.ilike("nombre_completo", `%${filters.cliente}%`);
+    if (
+      filters.cliente &&
+      !cliente.toLowerCase().includes(filters.cliente.toLowerCase())
+    ) {
+      return false;
     }
-    if (filters.fechaInicio) {
-      query = query.gte("created_at", `${filters.fechaInicio}T00:00:00`);
+    if (filters.fechaInicio && createdAt < `${filters.fechaInicio}T00:00:00`) {
+      return false;
     }
-    if (filters.fechaFin) {
-      query = query.lte("created_at", `${filters.fechaFin}T23:59:59`);
+    if (filters.fechaFin && createdAt > `${filters.fechaFin}T23:59:59`) {
+      return false;
     }
-    if (filters.interes) {
-      query = query.ilike("interes_cliente", `%${filters.interes}%`);
+    if (
+      filters.interes &&
+      !interes.toLowerCase().includes(filters.interes.toLowerCase())
+    ) {
+      return false;
     }
-    const { data, error } = await query.order("created_at", {
-      ascending: false,
+    return true;
+  });
+}
+
+export const leadService = {
+  async getAllLeads(
+    filters: LeadFilters = {} as LeadFilters,
+  ): Promise<ContactoBriscoResponse[]> {
+    const leads = await n8nClient.getContactos();
+    const filtered = filterLeads(leads, filters);
+    return filtered.sort((a, b) => {
+      const dateA = a.created_at ?? a.fecha_ultima_compra ?? "";
+      const dateB = b.created_at ?? b.fecha_ultima_compra ?? "";
+      return new Date(dateB).getTime() - new Date(dateA).getTime();
     });
-    if (error) throw error;
-    return data || [];
   },
 
-  async getLeadById(leadId: number): Promise<Lead> {
-    const { data, error } = await supabase
-      .from(LEADS_TABLE)
-      .select("*")
-      .eq("id_registro", leadId)
-      .single();
-
-    if (error) throw error;
-    return data;
+  async getLeadById(leadId: number): Promise<ContactoBriscoResponse> {
+    const leads = await leadService.getAllLeads();
+    const lead = leads.find((l) => l.id_cliente === leadId);
+    if (!lead) throw new Error(`Lead con ID ${leadId} no encontrado`);
+    return lead;
   },
 
   async getLeadTranscription(callId: string): Promise<string> {

@@ -22,7 +22,7 @@ Dashboard de gestión de leads para Calzado Industrial Brisco, una empresa mexic
 | Frontend | React 19 + TypeScript |
 | Build Tool | Vite 8 |
 | Estilos | Tailwind CSS v4 |
-| Base de Datos | Supabase (PostgreSQL) |
+| Fuente de Datos | n8n Webhook (API REST) |
 | Gráficos | Recharts |
 | Orquestación | n8n (webhooks) |
 | Testing | Vitest + React Testing Library |
@@ -35,7 +35,7 @@ src/
 │   ├── entities/       # Tipos e interfaces (Lead, LeadFilters)
 │   └── services/       # Lógica de negocio (LeadService)
 ├── data/                # Capa de datos
-│   └── repositories/    # Cliente de Supabase
+│   └── repositories/    # Cliente n8n (API REST)
 ├── infrastructure/      # Capa de infraestructura
 │   └── routes/          # Configuración de rutas
 └── presentation/        # Capa de presentación
@@ -52,19 +52,13 @@ src/
 Crea un archivo `.env` en la raíz del proyecto:
 
 ```env
-# Supabase
-VITE_SUPABASE_URL=tu_supabase_url
-VITE_SUPABASE_PUBLISHABLE_KEY=tu_supabase_publishable_key
-
 # n8n Webhooks
+VITE_N8N_CONTACTOS_WEBHOOK_URL=https://tu-n8n.com/webhook/getContactosBrisco
 VITE_N8N_WEBHOOK_URL=https://tu-n8n.com/webhook/transcription
 VITE_N8N_AUDIO_WEBHOOK_URL=https://tu-n8n.com/webhook/audio
 
 # Google Drive
 VITE_GOOGLE_DRIVE_BASE_URL=https://drive.google.com/file/d/
-
-# Tabla de Leads (opcional, default: leads_brisco)
-VITE_LEADS_TABLE=leads_brisco
 ```
 
 ### Scripts Disponibles
@@ -92,8 +86,7 @@ npm run lint         # Linting
 
 | Servicio | Uso |
 |----------|-----|
-| **Supabase** | Base de datos PostgreSQL para almacenamiento de leads |
-| **n8n Webhooks** | Obtención de transcripciones y audios de llamadas VAPI |
+| **n8n Webhooks** | Obtención de contactos, transcripciones y audios de llamadas VAPI |
 | **Google Drive** | Almacenamiento y reproducción de grabaciones |
 
 ## ✅ Quality Assurance
