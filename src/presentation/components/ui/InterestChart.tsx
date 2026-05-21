@@ -42,8 +42,8 @@ export default function InterestChart({ leads }: InterestChartProps) {
 
   if (leads.length === 0) {
     return (
-      <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">
+      <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-6">
+        <h2 className="text-base md:text-xl font-bold text-gray-900 mb-3 md:mb-4">
           Interés de Clientes
         </h2>
         <p className="text-gray-500 text-center py-8">
@@ -54,27 +54,27 @@ export default function InterestChart({ leads }: InterestChartProps) {
   }
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-6">
-      <h2 className="text-xl font-bold text-gray-900 mb-4">
+    <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-6">
+      <h2 className="text-base md:text-xl font-bold text-gray-900 mb-3 md:mb-4">
         Interés de Clientes
       </h2>
-      <div className="space-y-3">
+      <div className="space-y-2 md:space-y-3">
         {interestData.map((item) => (
-          <div key={item.label} className="flex items-center gap-3">
-            <span className="w-24 text-sm text-gray-600">{item.label}</span>
-            <div className="flex-1 h-6 bg-gray-100 rounded overflow-hidden">
+          <div key={item.label} className="flex items-center gap-2 md:gap-3">
+            <span className="w-16 md:w-24 text-xs md:text-sm text-gray-600 truncate">{item.label}</span>
+            <div className="flex-1 h-5 md:h-6 bg-gray-100 rounded overflow-hidden">
               <div
                 className={`h-full ${item.color} transition-all duration-300 rounded`}
                 style={{ width: `${(item.count / maxCount) * 100}%` }}
               />
             </div>
-            <span className="w-8 text-sm font-medium text-gray-900 text-right">
+            <span className="w-6 md:w-8 text-xs md:text-sm font-medium text-gray-900 text-right">
               {item.count}
             </span>
           </div>
         ))}
       </div>
-      <div className="mt-4 pt-4 border-t border-gray-100 text-sm text-gray-500">
+      <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t border-gray-100 text-xs md:text-sm text-gray-500">
         Total de leads: {leads.length}
       </div>
     </div>

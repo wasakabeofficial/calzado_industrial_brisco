@@ -42,8 +42,8 @@ export default function CallStatusChart({ leads }: CallStatusChartProps) {
 
   if (leads.length === 0) {
     return (
-      <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">
+      <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-6">
+        <h2 className="text-base md:text-xl font-bold text-gray-900 mb-3 md:mb-4">
           Estado de Llamadas
         </h2>
         <p className="text-gray-500 text-center py-8">
@@ -53,11 +53,10 @@ export default function CallStatusChart({ leads }: CallStatusChartProps) {
     );
   }
 
-  // Calcular angulos para el grafico circular
   let cumulativePercent = 0;
   const slices = statusData.map((item) => {
     const percent = (item.count / total) * 100;
-    const startAngle = cumulativePercent * 3.6; // Convertir a grados
+    const startAngle = cumulativePercent * 3.6;
     // eslint-disable-next-line react-hooks/immutability
     cumulativePercent += percent;
     const endAngle = cumulativePercent * 3.6;
@@ -65,13 +64,13 @@ export default function CallStatusChart({ leads }: CallStatusChartProps) {
   });
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-6">
-      <h2 className="text-xl font-bold text-gray-900 mb-4">
+    <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-6">
+      <h2 className="text-base md:text-xl font-bold text-gray-900 mb-3 md:mb-4">
         Estado de Llamadas
       </h2>
 
-      <div className="flex flex-col md:flex-row items-center gap-6">
-        <div className="relative w-40 h-40">
+      <div className="flex flex-col items-center gap-4 md:gap-6">
+        <div className="relative w-32 h-32 md:w-40 md:h-40">
           <svg
             viewBox="0 0 100 100"
             className="w-full h-full transform -rotate-90"
@@ -106,15 +105,15 @@ export default function CallStatusChart({ leads }: CallStatusChartProps) {
             <circle cx="50" cy="50" r="25" fill="white" />
           </svg>
         </div>
-        <div className="flex-1 space-y-2">
+        <div className="w-full space-y-1.5 md:space-y-2">
           {slices.map((item) => (
             <div key={item.label} className="flex items-center gap-2">
               <div
-                className="w-3 h-3 rounded-full"
+                className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full flex-shrink-0"
                 style={{ backgroundColor: item.color }}
               />
-              <span className="text-sm text-gray-600 flex-1">{item.label}</span>
-              <span className="text-sm font-medium text-gray-900">
+              <span className="text-xs md:text-sm text-gray-600 flex-1 truncate">{item.label}</span>
+              <span className="text-xs md:text-sm font-medium text-gray-900 ml-1">
                 {item.count} ({item.percent.toFixed(1)}%)
               </span>
             </div>
@@ -122,7 +121,7 @@ export default function CallStatusChart({ leads }: CallStatusChartProps) {
         </div>
       </div>
 
-      <div className="mt-4 pt-4 border-t border-gray-100 text-sm text-gray-500 text-center">
+      <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t border-gray-100 text-xs md:text-sm text-gray-500 text-center">
         Total de llamadas: {total}
       </div>
     </div>

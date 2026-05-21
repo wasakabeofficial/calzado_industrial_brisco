@@ -4,16 +4,17 @@
 [![Tests](https://img.shields.io/github/actions/workflow/status/wasakabeofficial/calzado_industrial_brisco/ci.yml?label=Tests)](https://github.com/wasakabeofficial/calzado_industrial_brisco/actions)
 [![Coverage](https://codecov.io/gh/wasakabeofficial/calzado_industrial_brisco/branch/main/graph/badge.svg)](https://codecov.io/gh/wasakabeofficial/calzado_industrial_brisco)
 
-Dashboard de gestión de leads para Calzado Industrial Brisco, una empresa mexicana dedicada a la fabricación y distribución de calzado industrial.
+Dashboard de gestión de leads y campañas para Calzado Industrial Brisco, una empresa mexicana dedicada a la fabricación y distribución de calzado industrial.
 
 ## 🚀 Características
 
-- **Gestión de Leads** - Visualización y seguimiento de clientes potenciales
-- **Filtros Avanzados** - Filtrado por proceso, empresa, cliente, fecha e interés
+- **Dashboard** - 6 gráficos interactivos con métricas de leads
+- **Clientes** - Tabla de clientes con filtros avanzados
+- **Campañas** - CRUD completo (crear, editar, filtrar) con modal de creación
+- **Sidebar** - Navegación colapsable con iconos (react-icons)
 - **Transcripciones** - Obtención de transcripciones de llamadas via webhook n8n
-- **Audio de Llamadas** - Escucha de grabaciones via Google Drive integration
-- **Visualizaciones** - 6 gráficos interactivos con Recharts
-- **Diseño Responsivo** - Interfaz adaptable a diferentes tamaños de pantalla
+- **Audio de Llamadas** - Escucha de grabaciones via Google Drive
+- **Diseño Responsivo** - Interfaz adaptable a móvil, tablet y desktop
 
 ## 🛠️ Stack Tecnológico
 
@@ -32,18 +33,28 @@ Dashboard de gestión de leads para Calzado Industrial Brisco, una empresa mexic
 ```
 src/
 ├── domain/              # Capa de dominio
-│   ├── entities/       # Tipos e interfaces (Lead, LeadFilters)
-│   └── services/       # Lógica de negocio (LeadService)
+│   ├── entities/       # Tipos e interfaces (ContactoBriscoResponse, Campana, etc.)
+│   └── services/       # Lógica de negocio (LeadService, CampanaService)
 ├── data/                # Capa de datos
-│   └── repositories/    # Cliente n8n (API REST)
+│   └── repositories/    # Cliente n8n (n8nUrl helper)
 ├── infrastructure/      # Capa de infraestructura
 │   └── routes/          # Configuración de rutas
 └── presentation/        # Capa de presentación
-    ├── components/      # Componentes UI (charts, tabla, filtros, Loading)
-    ├── hooks/           # Hooks personalizados (useLeadList, useLeadAudio, etc.)
-    ├── layout/          # Layout, Logo, Footer
-    └── pages/           # Páginas principales (LeadTable, LeadDetail)
+    ├── components/      # Componentes UI (charts, tablas, filtros, modal, loading)
+    ├── hooks/           # Hooks personalizados (useLeadList, useCampanas, etc.)
+    ├── layout/          # Layout, Sidebar, Logo
+    └── pages/           # Páginas (Dashboard, Clientes, Campanas, CampanaDetail, LeadDetail)
 ```
+
+## 📄 Rutas
+
+| Ruta | Descripción |
+|------|-------------|
+| `/` | Dashboard con gráficos |
+| `/clientes` | Tabla de clientes con filtros |
+| `/campanas` | Tabla de campañas con filtros y botón crear |
+| `/campanas/:id` | Detalle y edición de campaña |
+| `/lead/:id` | Detalle de lead con transcripción y audio |
 
 ## ⚙️ Configuración
 
@@ -78,17 +89,17 @@ npm run lint         # Linting
 ## 📊 Gráficos Disponibles
 
 1. **InterestChart** - Distribución por nivel de interés
-2. **CallStatusChart** - Estado de las llamadas
+2. **CallStatusChart** - Estado de las llamadas (gráfico circular)
 3. **ConversionChart** - Tasa de conversión
 4. **FollowUpActionChart** - Acciones de seguimiento
 5. **ObjectionChart** - Objeciones principales
-6. **CallFrequencyChart** - Frecuencia de llamadas (formato polígono)
+6. **CallFrequencyChart** - Frecuencia de llamadas (línea)
 
 ## 🔗 Integraciones
 
 | Servicio | Uso |
 |----------|-----|
-| **n8n Webhooks** | Obtención de contactos, transcripciones y audios de llamadas VAPI |
+| **n8n Webhooks** | Obtención de contactos, campañas, transcripciones y audios |
 | **Google Drive** | Almacenamiento y reproducción de grabaciones |
 
 ## ✅ Quality Assurance

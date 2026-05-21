@@ -52,8 +52,8 @@ export default function CallFrequencyChart({ leads }: CallFrequencyChartProps) {
 
   if (leads.length === 0 || chartData.length === 0) {
     return (
-      <div className="bg-white p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">
+      <div className="bg-white p-4 md:p-6">
+        <h2 className="text-base md:text-xl font-bold text-gray-900 mb-3 md:mb-4">
           Frecuencia de Llamadas
         </h2>
         <p className="text-gray-500 text-center py-8">
@@ -66,16 +66,16 @@ export default function CallFrequencyChart({ leads }: CallFrequencyChartProps) {
   const maxLlamadas = Math.max(...chartData.map((d) => d.llamadas), 9);
 
   return (
-    <div className="bg-white p-6">
-      <h2 className="text-xl font-bold text-gray-900 mb-4">
+    <div className="bg-white p-4 md:p-6">
+      <h2 className="text-base md:text-xl font-bold text-gray-900 mb-3 md:mb-4">
         Frecuencia de Llamadas
       </h2>
 
-      <div style={{ height: "250px" }}>
+      <div className="h-48 md:h-64">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={chartData}
-            margin={{ top: 20, right: 20, bottom: 40, left: 40 }}
+            margin={{ top: 10, right: 10, bottom: 30, left: 30 }}
           >
             <CartesianGrid
               vertical={false}
@@ -84,8 +84,8 @@ export default function CallFrequencyChart({ leads }: CallFrequencyChartProps) {
             />
             <XAxis
               dataKey="fecha"
-              tick={{ fontSize: 11, fill: "#000000", fontWeight: "bold" }}
-              axisLine={{ stroke: "#000000", strokeWidth: 2 }}
+              tick={{ fontSize: 10, fill: "#000000", fontWeight: "bold" }}
+              axisLine={{ stroke: "#000000", strokeWidth: 1.5 }}
               tickLine={false}
               interval={0}
               label={{
@@ -93,24 +93,24 @@ export default function CallFrequencyChart({ leads }: CallFrequencyChartProps) {
                 position: "bottom",
                 fill: "#000000",
                 fontWeight: "bold",
-                fontSize: 12,
+                fontSize: 11,
                 offset: 0,
               }}
             />
             <YAxis
               domain={[0, maxLlamadas]}
               ticks={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}
-              tick={{ fontSize: 11, fill: "#000000", fontWeight: "bold" }}
-              axisLine={{ stroke: "#000000", strokeWidth: 2 }}
+              tick={{ fontSize: 10, fill: "#000000", fontWeight: "bold" }}
+              axisLine={{ stroke: "#000000", strokeWidth: 1.5 }}
               tickLine={false}
-              width={30}
+              width={25}
               label={{
                 value: "No. Llamadas",
                 angle: -90,
                 position: "left",
                 fill: "#000000",
                 fontWeight: "bold",
-                fontSize: 12,
+                fontSize: 11,
               }}
             />
             <Line
@@ -119,13 +119,13 @@ export default function CallFrequencyChart({ leads }: CallFrequencyChartProps) {
               stroke="#6320EE"
               strokeWidth={2}
               dot={{
-                r: 5,
+                r: 4,
                 fill: "#C1E866",
                 stroke: "#6320EE",
                 strokeWidth: 2,
               }}
               activeDot={{
-                r: 5,
+                r: 4,
                 fill: "#C1E866",
                 stroke: "#6320EE",
                 strokeWidth: 2,
@@ -136,7 +136,7 @@ export default function CallFrequencyChart({ leads }: CallFrequencyChartProps) {
         </ResponsiveContainer>
       </div>
 
-      <div className="mt-4 pt-4 border-t border-gray-100 text-sm text-gray-500 text-center">
+      <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t border-gray-100 text-xs md:text-sm text-gray-500 text-center">
         Total de llamadas: {leads.length}
       </div>
     </div>

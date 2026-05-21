@@ -34,7 +34,7 @@ export default function Campanas() {
 
   if (loading) {
     return (
-      <div className="w-full px-6 py-4 mx-auto max-w-8xl">
+      <div className="w-full px-4 md:px-6 py-4 mx-auto max-w-8xl">
         <div className="flex flex-col items-center justify-center min-h-100 bg-gray-50 rounded-xl">
           <Loading size="lg" />
           <p className="mt-4 text-sm text-gray-500 font-medium">
@@ -47,7 +47,7 @@ export default function Campanas() {
 
   if (error) {
     return (
-      <div className="w-full px-6 py-4 mx-auto max-w-8xl">
+      <div className="w-full px-4 md:px-6 py-4 mx-auto max-w-8xl">
         <div className="p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm">
           Error: {error}
         </div>
@@ -56,7 +56,7 @@ export default function Campanas() {
   }
 
   return (
-    <div className="w-full px-6 py-4 mx-auto max-w-8xl space-y-6">
+    <div className="w-full px-4 md:px-6 py-4 mx-auto max-w-8xl space-y-4 md:space-y-6">
       <div className="flex justify-end">
         <button
           onClick={() => setShowForm(true)}
