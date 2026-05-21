@@ -20,6 +20,8 @@ export default function LeadInfo({ lead }: LeadInfoProps) {
   const resumen = lead.resumen_llamada;
   const objeccion = lead.objeccion_principal ?? "N/A";
   const descripcionObjeccion = lead.descripcion_objeccion_principal;
+  const duracionLlamada = lead.duracion_llamada ?? "N/A";
+  const razonTerminado = lead.razon_terminado_llamada ?? "N/A";
   const fechaRegistro = lead.created_at ?? new Date().toISOString();
 
   return (
@@ -112,6 +114,14 @@ export default function LeadInfo({ lead }: LeadInfoProps) {
             <p className="text-lg text-gray-900">{descripcionObjeccion}</p>
           </div>
         )}
+        <div>
+          <p className="text-sm text-gray-500">Duración de Llamada</p>
+          <p className="text-lg text-gray-900">{duracionLlamada}</p>
+        </div>
+        <div>
+          <p className="text-sm text-gray-500">Razón de Terminación</p>
+          <p className="text-lg text-gray-900">{razonTerminado}</p>
+        </div>
         <div>
           <p className="text-sm text-gray-500">Fecha de Registro</p>
           <p className="text-lg text-gray-900">

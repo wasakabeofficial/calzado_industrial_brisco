@@ -17,6 +17,8 @@ export interface ContactoBriscoResponse {
   resumen_llamada?: string | null;
   objeccion_principal?: string;
   descripcion_objeccion_principal?: string | null;
+  duracion_llamada?: string | null;
+  razon_terminado_llamada?: string | null;
   created_at?: string;
 }
 
