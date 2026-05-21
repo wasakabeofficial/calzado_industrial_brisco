@@ -27,8 +27,6 @@ export default function CallDurationChart({ leads }: CallDurationChartProps) {
         return;
       }
 
-      // Formato: parte entera = minutos, 2 decimales = segundos
-      // Ej: 1.1906 → 1 minuto + 19 segundos
       const valor =
         typeof duracion === "number" ? duracion : parseFloat(duracion);
 
@@ -86,26 +84,22 @@ export default function CallDurationChart({ leads }: CallDurationChartProps) {
         Duración de Llamadas
       </h2>
 
-      <div className="space-y-3 md:space-y-4">
+      <div className="flex items-end justify-center gap-3 md:gap-4 h-40 md:h-48">
         {chartData.map((item) => (
-          <div key={item.label} className="flex items-center gap-3">
-            <span className="text-xs md:text-sm text-gray-700 w-16 md:w-20 shrink-0 text-right">
+          <div key={item.label} className="flex flex-col items-center gap-2">
+            <div className="text-sm md:text-base font-bold text-gray-900">
+              {item.count}
+            </div>
+            <div
+              className="w-10 md:w-14 rounded-t-md transition-all duration-300"
+              style={{
+                height: `${(item.count / maxCount) * 120}px`,
+                backgroundColor: item.color,
+              }}
+            />
+            <span className="text-[10px] md:text-xs text-gray-600 text-center">
               {item.label}
             </span>
-            <div className="flex-1 bg-gray-100 rounded-full h-5 md:h-6 overflow-hidden">
-              <div
-                className="h-full rounded-full transition-all duration-300 flex items-center justify-end px-2"
-                style={{
-                  width: `${(item.count / maxCount) * 100}%`,
-                  backgroundColor: item.color,
-                  minWidth: item.count > 0 ? "24px" : "0px",
-                }}
-              >
-                <span className="text-xs font-bold text-white drop-shadow-sm">
-                  {item.count}
-                </span>
-              </div>
-            </div>
           </div>
         ))}
       </div>

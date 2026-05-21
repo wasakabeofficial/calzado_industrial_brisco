@@ -69,26 +69,22 @@ export default function CallEndReasonChart({ leads }: CallEndReasonChartProps) {
         Razones de Terminación de Llamada
       </h2>
 
-      <div className="space-y-3 md:space-y-4">
+      <div className="flex items-end justify-center gap-2 md:gap-3 h-40 md:h-48 overflow-x-auto pb-2">
         {chartData.map((item) => (
-          <div key={item.label} className="flex items-center gap-3">
-            <span className="text-xs md:text-sm text-gray-700 w-24 md:w-32 shrink-0 text-right truncate" title={item.label}>
+          <div key={item.label} className="flex flex-col items-center gap-2 shrink-0">
+            <div className="text-sm md:text-base font-bold text-gray-900">
+              {item.count}
+            </div>
+            <div
+              className="w-12 md:w-16 rounded-t-md transition-all duration-300"
+              style={{
+                height: `${(item.count / maxCount) * 120}px`,
+                backgroundColor: item.color,
+              }}
+            />
+            <span className="text-[9px] md:text-xs text-gray-600 text-center max-w-16 md:max-w-20 leading-tight">
               {item.label}
             </span>
-            <div className="flex-1 bg-gray-100 rounded-full h-5 md:h-6 overflow-hidden">
-              <div
-                className="h-full rounded-full transition-all duration-300 flex items-center justify-end px-2"
-                style={{
-                  width: `${(item.count / maxCount) * 100}%`,
-                  backgroundColor: item.color,
-                  minWidth: item.count > 0 ? "24px" : "0px",
-                }}
-              >
-                <span className="text-xs font-bold text-white drop-shadow-sm">
-                  {item.count}
-                </span>
-              </div>
-            </div>
           </div>
         ))}
       </div>
