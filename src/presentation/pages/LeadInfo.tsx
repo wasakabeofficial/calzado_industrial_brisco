@@ -5,6 +5,68 @@ interface LeadInfoProps {
   lead: ContactoBriscoResponse;
 }
 
+function Badge({
+  label,
+  color,
+}: {
+  label: string;
+  color: "green" | "red" | "yellow" | "gray" | "blue" | "orange";
+}) {
+  const colors: Record<string, string> = {
+    green: "bg-green-100 text-green-800",
+    red: "bg-red-100 text-red-800",
+    yellow: "bg-yellow-100 text-yellow-800",
+    gray: "bg-gray-100 text-gray-800",
+    blue: "bg-blue-100 text-blue-800",
+    orange: "bg-orange-100 text-orange-800",
+  };
+  return (
+    <span
+      className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold ${colors[color]}`}
+    >
+      {label}
+    </span>
+  );
+}
+
+function Field({
+  label,
+  value,
+  colSpan,
+}: {
+  label: string;
+  value: React.ReactNode;
+  colSpan?: boolean;
+}) {
+  return (
+    <div className={colSpan ? "col-span-2" : ""}>
+      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">
+        {label}
+      </p>
+      <p className="text-sm font-medium text-gray-900 leading-relaxed">
+        {value ?? "N/A"}
+      </p>
+    </div>
+  );
+}
+
+function Section({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest border-b border-gray-100 pb-2 mb-4">
+        {title}
+      </h3>
+      <div className="grid grid-cols-2 gap-x-6 gap-y-3">{children}</div>
+    </div>
+  );
+}
+
 export default function LeadInfo({ lead }: LeadInfoProps) {
   const nombre = lead.nombre_completo ?? "N/A";
   const telefono = lead.telefono ?? "N/A";
@@ -23,120 +85,134 @@ export default function LeadInfo({ lead }: LeadInfoProps) {
   const descripcionObjeccion = lead.descripcion_objeccion_principal;
   const duracionLlamada = useMemo(() => {
     const d = lead.duracion_llamada;
-    if (d === undefined || d === null || d === "" || d === "N/A") return "N/A";
+    if (d === undefined || d === null || d === "" || d === "N/A") return null;
     const valor = typeof d === "number" ? d : parseFloat(d);
-    if (isNaN(valor) || valor < 0) return "N/A";
+    if (isNaN(valor) || valor < 0) return null;
     const min = Math.floor(valor);
     const seg = Math.round((valor - min) * 100);
+    if (min === 0) return `${seg} s`;
     return `${min} min ${seg} s`;
   }, [lead.duracion_llamada]);
   const razonTerminado = lead.razon_terminado_llamada ?? "N/A";
   const fechaRegistro = lead.created_at ?? new Date().toISOString();
 
-  return (
-    <div className="bg-white border border-gray-200 rounded-lg p-6">
-      <div className="grid grid-cols-2 gap-6">
-        <div>
-          <p className="text-sm text-gray-500">Nombre Completo</p>
-          <p className="text-lg font-medium text-gray-900">{nombre}</p>
-        </div>
-        <div>
-          <p className="text-sm text-gray-500">No. Telefono</p>
-          <p className="text-lg font-medium text-gray-900">{telefono}</p>
-        </div>
-        <div>
-          <p className="text-sm text-gray-500">Organización</p>
-          <p className="text-lg font-medium text-gray-900">{empresa}</p>
-        </div>
+  const statusColor =
+    callStatus.toLowerCase() === "completado"
+      ? "green"
+      : callStatus.toLowerCase() === "fallido"
+        ? "red"
+        : "gray";
 
-        <div>
-          <p className="text-sm text-gray-500">Estado de Llamada</p>
-          <span
-            className={`px-2 py-1 rounded-full text-xs font-medium ${
-              callStatus.toLowerCase() === "completado"
-                ? "bg-green-100 text-green-800"
-                : callStatus.toLowerCase() === "fallido"
-                  ? "bg-red-100 text-red-800"
-                  : "bg-gray-100 text-gray-800"
-            }`}
-          >
-            {callStatus}
-          </span>
-        </div>
-        <div>
-          <p className="text-sm text-gray-500">Estado de Proceso</p>
-          <span
-            className={`px-2 py-1 rounded-full text-xs font-medium ${
-              proceso === "PENDIENTE"
-                ? "bg-yellow-100 text-yellow-800"
-                : "bg-green-100 text-green-800"
-            }`}
-          >
-            {proceso}
-          </span>
-        </div>
-        <div>
-          <p className="text-sm text-gray-500">Fecha Última Compra</p>
-          <p className="text-lg text-gray-900">{fechaCompra}</p>
-        </div>
-        <div>
-          <p className="text-sm text-gray-500">Producto Comprado</p>
-          <p className="text-lg text-gray-900">{producto}</p>
-        </div>
-        <div className="col-span-2">
-          <p className="text-sm text-gray-500">Interés del Cliente</p>
-          <p className="text-lg text-gray-900">{interes}</p>
-        </div>
-        {descripcionInteres && (
-          <div className="col-span-2">
-            <p className="text-sm text-gray-500">Descripción del Interés</p>
-            <p className="text-lg text-gray-900">{descripcionInteres}</p>
+  const procesoColor = proceso === "PROCESADO" ? "green" : "yellow";
+
+  const interesColor =
+    interes === "ALTO"
+      ? "green"
+      : interes === "MEDIO"
+        ? "orange"
+        : interes === "BAJO"
+          ? "red"
+          : "gray";
+
+  const objeccionColor = objeccion === "NINGUNA" ? "green" : "orange";
+
+  const conversionLabel = conversion ? "Sí" : "No";
+  const conversionColor = conversion ? "green" : "red";
+
+  return (
+    <div className="bg-white border border-gray-200 rounded-lg">
+      {/* Header con nombre y empresa */}
+      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
+            <span className="text-indigo-700 font-bold text-sm">
+              {nombre !== "N/A"
+                ? nombre
+                    .split(" ")
+                    .map((w) => w[0])
+                    .join("")
+                    .slice(0, 2)
+                : "?"}
+            </span>
           </div>
-        )}
-        <div>
-          <p className="text-sm text-gray-500">Conversión Lograda</p>
-          <p className="text-lg text-gray-900">{conversion ? "Sí" : "No"}</p>
-        </div>
-        <div>
-          <p className="text-sm text-gray-500">Acción de Seguimiento</p>
-          <p className="text-lg text-gray-900">{seguimiento}</p>
-        </div>
-        {descripcionSeguimiento && (
-          <div className="col-span-2">
-            <p className="text-sm text-gray-500">Descripción Acción</p>
-            <p className="text-lg text-gray-900">{descripcionSeguimiento}</p>
-          </div>
-        )}
-        {resumen && (
-          <div className="col-span-2">
-            <p className="text-sm text-gray-500">Resumen de Llamada</p>
-            <p className="text-lg text-gray-900">{resumen}</p>
-          </div>
-        )}
-        <div>
-          <p className="text-sm text-gray-500">Objeción Principal</p>
-          <p className="text-lg text-gray-900">{objeccion}</p>
-        </div>
-        {descripcionObjeccion && (
           <div>
-            <p className="text-sm text-gray-500">Descripción Objeción</p>
-            <p className="text-lg text-gray-900">{descripcionObjeccion}</p>
+            <h2 className="text-lg font-bold text-gray-900">{nombre}</h2>
+            <p className="text-sm text-gray-500">{empresa}</p>
           </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <Badge label={proceso} color={procesoColor} />
+          <Badge label={callStatus} color={statusColor} />
+        </div>
+      </div>
+
+      {/* Cuerpo con secciones */}
+      <div className="px-6 py-5 space-y-6">
+        {/* Contacto */}
+        <Section title="Contacto">
+          <Field label="Teléfono" value={telefono} />
+          <Field label="Fecha de Registro" value={new Date(fechaRegistro).toLocaleString("es-MX")} />
+        </Section>
+
+        {/* Llamada */}
+        {(callStatus !== "N/A" || duracionLlamada || razonTerminado !== "N/A" || resumen) && (
+          <Section title="Llamada">
+            {callStatus !== "N/A" && (
+              <Field label="Estado" value={<Badge label={callStatus} color={statusColor} />} />
+            )}
+            {duracionLlamada && <Field label="Duración" value={duracionLlamada} />}
+            {razonTerminado !== "N/A" && <Field label="Razón de Terminación" value={razonTerminado} />}
+            {resumen && <Field label="Resumen" value={resumen} colSpan />}
+          </Section>
         )}
-        <div>
-          <p className="text-sm text-gray-500">Duración de Llamada</p>
-          <p className="text-lg text-gray-900">{duracionLlamada}</p> mint.
-        </div>
-        <div>
-          <p className="text-sm text-gray-500">Razón de Terminación</p>
-          <p className="text-lg text-gray-900">{razonTerminado}</p>
-        </div>
-        <div>
-          <p className="text-sm text-gray-500">Fecha de Registro</p>
-          <p className="text-lg text-gray-900">
-            {new Date(fechaRegistro).toLocaleString("es-MX")}
-          </p>
-        </div>
+
+        {/* Interés y Conversión */}
+        {(interes !== "N/A" || conversion !== false) && (
+          <Section title="Interés & Conversión">
+            <Field
+              label="Nivel de Interés"
+              value={<Badge label={interes} color={interesColor} />}
+            />
+            <Field
+              label="Conversión Lograda"
+              value={<Badge label={conversionLabel} color={conversionColor} />}
+            />
+            {descripcionInteres && (
+              <Field label="Descripción del Interés" value={descripcionInteres} colSpan />
+            )}
+          </Section>
+        )}
+
+        {/* Seguimiento */}
+        {(seguimiento !== "N/A" || descripcionSeguimiento) && (
+          <Section title="Seguimiento">
+            <Field label="Acción" value={seguimiento} />
+            {descripcionSeguimiento && (
+              <Field label="Descripción" value={descripcionSeguimiento} colSpan />
+            )}
+          </Section>
+        )}
+
+        {/* Objeciones */}
+        {(objeccion !== "N/A" || descripcionObjeccion) && (
+          <Section title="Objeciones">
+            <Field
+              label="Objeción Principal"
+              value={<Badge label={objeccion} color={objeccionColor} />}
+            />
+            {descripcionObjeccion && (
+              <Field label="Descripción" value={descripcionObjeccion} colSpan />
+            )}
+          </Section>
+        )}
+
+        {/* Compra */}
+        {(fechaCompra !== "N/A" || producto !== "N/A") && (
+          <Section title="Última Compra">
+            <Field label="Fecha" value={fechaCompra} />
+            <Field label="Producto" value={producto} />
+          </Section>
+        )}
       </div>
     </div>
   );
