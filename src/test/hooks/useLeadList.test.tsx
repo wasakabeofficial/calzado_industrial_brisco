@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 import { useLeadList } from "@/presentation/hooks";
-import { leadService } from "@/domain/services";
+import { leadService } from "@/data/services";
 import type { LeadFilters } from "@/domain/entities";
 import { mockLeads } from "../mocks/leads";
 
 // Mock the service
-vi.mock("@/domain/services", () => ({
+vi.mock("@/data/services", () => ({
   leadService: {
     getAllLeads: vi.fn(),
   },

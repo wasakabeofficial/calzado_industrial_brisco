@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import type { ContactoBriscoResponse } from "../../domain/entities";
-import { leadService } from "../../domain/services";
+import { leadService } from "../../data/services";
 
 interface UseLeadDetailResult {
   lead: ContactoBriscoResponse | null;

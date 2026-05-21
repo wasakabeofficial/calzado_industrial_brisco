@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { leadService } from "../../domain/services";
+import { leadService } from "../../data/services";
 
 const GOOGLE_DRIVE_BASE_URL = import.meta.env.VITE_GOOGLE_DRIVE_BASE_URL;
 

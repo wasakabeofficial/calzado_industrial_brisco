@@ -4,7 +4,7 @@ import type {
   LeadFilters,
 } from "../../domain/entities";
 import { emptyFilters } from "../../domain/entities";
-import { leadService } from "../../domain/services";
+import { leadService } from "../../data/services";
 
 interface UseLeadListResult {
   leads: ContactoBriscoResponse[];

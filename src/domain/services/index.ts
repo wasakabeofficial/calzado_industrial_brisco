@@ -1,2 +1,1 @@
-export { leadService } from "./LeadService";
-export type { AudioResponse } from "./LeadService";
+export { filterLeads } from "./LeadService";
