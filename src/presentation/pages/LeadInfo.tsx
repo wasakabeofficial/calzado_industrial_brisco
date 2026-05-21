@@ -10,7 +10,7 @@ function Badge({
   color,
 }: {
   label: string;
-  color: "green" | "red" | "yellow" | "gray" | "blue" | "orange";
+  color: "green" | "red" | "yellow" | "gray" | "blue" | "orange" | "purple";
 }) {
   const colors: Record<string, string> = {
     green: "bg-green-100 text-green-800",
@@ -19,6 +19,7 @@ function Badge({
     gray: "bg-gray-100 text-gray-800",
     blue: "bg-blue-100 text-blue-800",
     orange: "bg-orange-100 text-orange-800",
+    purple: "bg-purple-100 text-purple-800",
   };
   return (
     <span
@@ -32,44 +33,25 @@ function Badge({
 function Field({
   label,
   value,
-  colSpan,
 }: {
   label: string;
   value: React.ReactNode;
-  colSpan?: boolean;
 }) {
   return (
-    <div className={colSpan ? "col-span-2" : ""}>
-      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">
+    <div className="min-w-0">
+      <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-0.5">
         {label}
       </p>
-      <p className="text-sm font-medium text-gray-900 leading-relaxed">
+      <p className="text-sm font-medium text-gray-900 truncate" title={typeof value === "string" ? value : undefined}>
         {value ?? "N/A"}
       </p>
     </div>
   );
 }
 
-function Section({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div>
-      <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest border-b border-gray-100 pb-2 mb-4">
-        {title}
-      </h3>
-      <div className="grid grid-cols-2 gap-x-6 gap-y-3">{children}</div>
-    </div>
-  );
-}
-
 export default function LeadInfo({ lead }: LeadInfoProps) {
   const nombre = lead.nombre_completo ?? "N/A";
-  const telefono = lead.telefono ?? "N/A";
+  const telefono = lead.telefono?.toString() ?? "N/A";
   const empresa = lead.nombre_empresa ?? "N/A";
   const callStatus = lead.vapi_call_status ?? "N/A";
   const proceso = lead.status_procesos ?? "N/A";
@@ -116,15 +98,12 @@ export default function LeadInfo({ lead }: LeadInfoProps) {
 
   const objeccionColor = objeccion === "NINGUNA" ? "green" : "orange";
 
-  const conversionLabel = conversion ? "Sí" : "No";
-  const conversionColor = conversion ? "green" : "red";
-
   return (
-    <div className="bg-white border border-gray-200 rounded-lg">
-      {/* Header con nombre y empresa */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center">
+    <div className="bg-white border border-gray-200 rounded-lg w-full">
+      {/* Header */}
+      <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-gray-100">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center shrink-0">
             <span className="text-indigo-700 font-bold text-sm">
               {nombre !== "N/A"
                 ? nombre
@@ -136,82 +115,97 @@ export default function LeadInfo({ lead }: LeadInfoProps) {
             </span>
           </div>
           <div>
-            <h2 className="text-lg font-bold text-gray-900">{nombre}</h2>
-            <p className="text-sm text-gray-500">{empresa}</p>
+            <h2 className="text-base font-bold text-gray-900">{nombre}</h2>
+            <p className="text-xs text-gray-500">{empresa}</p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-1.5">
           <Badge label={proceso} color={procesoColor} />
           <Badge label={callStatus} color={statusColor} />
         </div>
       </div>
 
-      {/* Cuerpo con secciones */}
-      <div className="px-6 py-5 space-y-6">
-        {/* Contacto */}
-        <Section title="Contacto">
+      {/* Info Body - full width horizontal layout */}
+      <div className="px-5 py-4 space-y-5">
+        {/* Fila 1: Contacto + Fechas */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <Field label="Teléfono" value={telefono} />
-          <Field label="Fecha de Registro" value={new Date(fechaRegistro).toLocaleString("es-MX")} />
-        </Section>
+          <Field label="Registro" value={new Date(fechaRegistro).toLocaleString("es-MX")} />
+          <Field label="Última Compra" value={fechaCompra} />
+          <Field label="Producto" value={producto} />
+        </div>
 
-        {/* Llamada */}
-        {(callStatus !== "N/A" || duracionLlamada || razonTerminado !== "N/A" || resumen) && (
-          <Section title="Llamada">
-            {callStatus !== "N/A" && (
-              <Field label="Estado" value={<Badge label={callStatus} color={statusColor} />} />
-            )}
-            {duracionLlamada && <Field label="Duración" value={duracionLlamada} />}
-            {razonTerminado !== "N/A" && <Field label="Razón de Terminación" value={razonTerminado} />}
-            {resumen && <Field label="Resumen" value={resumen} colSpan />}
-          </Section>
+        {/* Fila 2: Llamada - duración + razón */}
+        {(callStatus !== "N/A" || duracionLlamada || razonTerminado !== "N/A") && (
+          <div>
+            <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">
+              Información de Llamada
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {callStatus !== "N/A" && (
+                <Field label="Estado" value={<Badge label={callStatus} color={statusColor} />} />
+              )}
+              {duracionLlamada && <Field label="Duración" value={duracionLlamada} />}
+              {razonTerminado !== "N/A" && <Field label="Razón Terminación" value={razonTerminado} />}
+            </div>
+          </div>
         )}
 
-        {/* Interés y Conversión */}
-        {(interes !== "N/A" || conversion !== false) && (
-          <Section title="Interés & Conversión">
-            <Field
-              label="Nivel de Interés"
-              value={<Badge label={interes} color={interesColor} />}
-            />
-            <Field
-              label="Conversión Lograda"
-              value={<Badge label={conversionLabel} color={conversionColor} />}
-            />
-            {descripcionInteres && (
-              <Field label="Descripción del Interés" value={descripcionInteres} colSpan />
-            )}
-          </Section>
+        {/* Fila 3: Interés */}
+        {interes !== "N/A" && (
+          <div>
+            <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">
+              Interés del Cliente
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <Field label="Nivel" value={<Badge label={interes} color={interesColor} />} />
+              <Field label="Conversión" value={conversion ? "Sí" : "No"} />
+              {descripcionInteres && (
+                <div className="col-span-2 sm:col-span-2">
+                  <Field label="Descripción" value={descripcionInteres} />
+                </div>
+              )}
+            </div>
+          </div>
         )}
 
-        {/* Seguimiento */}
+        {/* Fila 4: Seguimiento */}
         {(seguimiento !== "N/A" || descripcionSeguimiento) && (
-          <Section title="Seguimiento">
-            <Field label="Acción" value={seguimiento} />
-            {descripcionSeguimiento && (
-              <Field label="Descripción" value={descripcionSeguimiento} colSpan />
-            )}
-          </Section>
+          <div>
+            <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">
+              Seguimiento
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label="Acción" value={seguimiento} />
+              {descripcionSeguimiento && <Field label="Descripción" value={descripcionSeguimiento} />}
+            </div>
+          </div>
         )}
 
-        {/* Objeciones */}
+        {/* Fila 5: Objeciones */}
         {(objeccion !== "N/A" || descripcionObjeccion) && (
-          <Section title="Objeciones">
-            <Field
-              label="Objeción Principal"
-              value={<Badge label={objeccion} color={objeccionColor} />}
-            />
-            {descripcionObjeccion && (
-              <Field label="Descripción" value={descripcionObjeccion} colSpan />
-            )}
-          </Section>
+          <div>
+            <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">
+              Objeciones
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field
+                label="Objeción"
+                value={<Badge label={objeccion} color={objeccionColor} />}
+              />
+              {descripcionObjeccion && <Field label="Descripción" value={descripcionObjeccion} />}
+            </div>
+          </div>
         )}
 
-        {/* Compra */}
-        {(fechaCompra !== "N/A" || producto !== "N/A") && (
-          <Section title="Última Compra">
-            <Field label="Fecha" value={fechaCompra} />
-            <Field label="Producto" value={producto} />
-          </Section>
+        {/* Fila 6: Resumen */}
+        {resumen && (
+          <div>
+            <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">
+              Resumen de Llamada
+            </h3>
+            <p className="text-sm text-gray-700 leading-relaxed">{resumen}</p>
+          </div>
         )}
       </div>
     </div>
