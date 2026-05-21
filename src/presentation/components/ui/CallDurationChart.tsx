@@ -6,7 +6,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 import type { ContactoBriscoResponse } from "../../../domain/entities";
@@ -17,7 +16,6 @@ interface CallDurationChartProps {
 
 export default function CallDurationChart({ leads }: CallDurationChartProps) {
   const chartData = useMemo(() => {
-    // Agrupar duraciones en rangos
     const durationCounts: Record<string, number> = {
       "0-30s": 0,
       "31-60s": 0,
@@ -29,26 +27,17 @@ export default function CallDurationChart({ leads }: CallDurationChartProps) {
 
     leads.forEach((lead) => {
       const duracion = lead.duracion_llamada;
-      if (!duracion || duracion === "N/A") {
+
+      // Si no hay dato, es string vacío o "N/A"
+      if (duracion === undefined || duracion === null || duracion === "" || duracion === "N/A") {
         durationCounts["Sin dato"]++;
         return;
       }
 
-      // Convertir formato de duración a segundos (asumiendo formato como "MM:SS" o "HH:MM:SS")
-      let segundos = 0;
-      try {
-        const partes = duracion.split(":").map(Number);
-        if (partes.length === 2) {
-          // MM:SS
-          segundos = partes[0] * 60 + partes[1];
-        } else if (partes.length === 3) {
-          // HH:MM:SS
-          segundos = partes[0] * 3600 + partes[1] * 60 + partes[2];
-        } else {
-          // Asumir que ya está en segundos
-          segundos = parseFloat(duracion);
-        }
-      } catch (e) {
+      // Convertir a número (segundos)
+      const segundos = typeof duracion === "number" ? duracion : parseFloat(duracion);
+
+      if (isNaN(segundos) || segundos < 0) {
         durationCounts["Sin dato"]++;
         return;
       }
@@ -62,7 +51,7 @@ export default function CallDurationChart({ leads }: CallDurationChartProps) {
 
     return Object.entries(durationCounts)
       .map(([rango, cantidad]) => ({ rango, cantidad }))
-      .filter((item) => item.cantidad > 0); // Solo mostrar rangos con datos
+      .filter((item) => item.cantidad > 0);
   }, [leads]);
 
   if (leads.length === 0 || chartData.length === 0) {
@@ -105,7 +94,6 @@ export default function CallDurationChart({ leads }: CallDurationChartProps) {
               width={80}
             />
             <Tooltip formatter={(value) => `${value} llamadas`} />
-            <Legend verticalAlign="top" height={36} />
             <Bar
               dataKey="cantidad"
               barSize={20}

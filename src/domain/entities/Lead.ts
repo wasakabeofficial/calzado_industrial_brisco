@@ -11,13 +11,13 @@ export interface ContactoBriscoResponse {
   status_procesos?: string;
   interes_cliente?: string;
   descripcion_interes_cliente?: string | null;
-  conversacion_lograda?: boolean;
+  conversion_lograda?: boolean;
   accion_seguimiento?: string;
   descripcion_accion_seguimiento?: string | null;
   resumen_llamada?: string | null;
   objeccion_principal?: string;
   descripcion_objeccion_principal?: string | null;
-  duracion_llamada?: string | null;
+  duracion_llamada?: number | string | null;
   razon_terminado_llamada?: string | null;
   created_at?: string;
 }

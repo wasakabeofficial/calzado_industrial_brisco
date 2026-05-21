@@ -17,7 +17,7 @@ export default function ConversionChart({ leads }: ConversionChartProps) {
     let rejected = 0;
 
     leads.forEach((lead) => {
-      if (lead.conversacion_lograda === true) {
+      if (lead.conversion_lograda === true) {
         accepted++;
       } else {
         rejected++;

@@ -14,7 +14,7 @@ export default function LeadInfo({ lead }: LeadInfoProps) {
   const producto = lead.producto_ultima_compra ?? "N/A";
   const interes = lead.interes_cliente ?? "N/A";
   const descripcionInteres = lead.descripcion_interes_cliente;
-  const conversacion = lead.conversacion_lograda ?? false;
+  const conversion = lead.conversion_lograda ?? false;
   const seguimiento = lead.accion_seguimiento ?? "N/A";
   const descripcionSeguimiento = lead.descripcion_accion_seguimiento;
   const resumen = lead.resumen_llamada;
@@ -86,7 +86,7 @@ export default function LeadInfo({ lead }: LeadInfoProps) {
         )}
         <div>
           <p className="text-sm text-gray-500">Conversación Lograda</p>
-          <p className="text-lg text-gray-900">{conversacion ? "Sí" : "No"}</p>
+          <p className="text-lg text-gray-900">{conversion ? "Sí" : "No"}</p>
         </div>
         <div>
           <p className="text-sm text-gray-500">Acción de Seguimiento</p>
