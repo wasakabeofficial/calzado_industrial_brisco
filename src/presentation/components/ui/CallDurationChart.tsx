@@ -72,7 +72,7 @@ export default function CallDurationChart({ leads }: CallDurationChartProps) {
         {chartData.map((item) => (
           <div key={item.label} className="flex items-center gap-1.5">
             <span
-              className="inline-block w-2.5 h-2.5 rounded-sm flex-shrink-0"
+              className="inline-block w-2.5 h-2.5 rounded-sm shrink-0"
               style={{ backgroundColor: item.color }}
             />
             <span className="text-[10px] md:text-xs text-gray-500">

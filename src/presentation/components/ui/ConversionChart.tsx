@@ -34,7 +34,9 @@ export default function ConversionChart({ leads }: ConversionChartProps) {
         <h2 className="text-base md:text-lg font-semibold text-gray-900 mb-3 md:mb-4">
           Conversión Lograda
         </h2>
-        <p className="text-gray-400 text-center py-8 text-sm">No hay datos disponibles</p>
+        <p className="text-gray-400 text-center py-8 text-sm">
+          No hay datos disponibles
+        </p>
       </div>
     );
   }
@@ -49,20 +51,33 @@ export default function ConversionChart({ leads }: ConversionChartProps) {
         {chartData.map((item) => (
           <div key={item.label} className="flex items-center gap-1.5">
             <span
-              className="inline-block w-2.5 h-2.5 rounded-sm flex-shrink-0"
+              className="inline-block w-2.5 h-2.5 rounded-sm shrink-0"
               style={{ backgroundColor: item.color }}
             />
-            <span className="text-[10px] md:text-xs text-gray-500">{item.label}</span>
+            <span className="text-[10px] md:text-xs text-gray-500">
+              {item.label}
+            </span>
           </div>
         ))}
       </div>
 
-      <div className="flex items-end justify-center gap-8 md:gap-12" style={{ height: `${BAR_MAX_HEIGHT}px` }}>
+      <div
+        className="flex items-end justify-center gap-8 md:gap-12"
+        style={{ height: `${BAR_MAX_HEIGHT}px` }}
+      >
         {chartData.map((item) => {
-          const barHeight = item.count > 0 ? Math.max((item.count / maxCount) * (BAR_MAX_HEIGHT - 20), 8) : 0;
+          const barHeight =
+            item.count > 0
+              ? Math.max((item.count / maxCount) * (BAR_MAX_HEIGHT - 20), 8)
+              : 0;
           return (
-            <div key={item.label} className="flex flex-col items-center gap-1 group relative">
-              <span className="text-sm font-semibold text-gray-900">{item.count}</span>
+            <div
+              key={item.label}
+              className="flex flex-col items-center gap-1 group relative"
+            >
+              <span className="text-sm font-semibold text-gray-900">
+                {item.count}
+              </span>
               <div
                 className="w-14 md:w-20 rounded-t-sm transition-all duration-300 relative"
                 style={{
@@ -77,7 +92,9 @@ export default function ConversionChart({ leads }: ConversionChartProps) {
                   <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-gray-900" />
                 </div>
               </div>
-              <span className="text-[9px] md:text-[10px] text-gray-400 whitespace-nowrap">{item.label}</span>
+              <span className="text-[9px] md:text-[10px] text-gray-400 whitespace-nowrap">
+                {item.label}
+              </span>
             </div>
           );
         })}
