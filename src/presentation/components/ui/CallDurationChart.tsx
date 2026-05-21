@@ -99,6 +99,12 @@ export default function CallDurationChart({ leads }: CallDurationChartProps) {
               barSize={20}
               radius={[4, 4, 4, 4]}
               fill="#6320EE"
+              label={{
+                position: "right",
+                fill: "#6320EE",
+                fontWeight: "bold",
+                fontSize: 12,
+              }}
             />
           </BarChart>
         </ResponsiveContainer>

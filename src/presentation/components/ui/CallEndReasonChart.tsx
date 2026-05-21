@@ -6,7 +6,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 import type { ContactoBriscoResponse } from "../../../domain/entities";
@@ -83,12 +82,17 @@ export default function CallEndReasonChart({ leads }: CallEndReasonChartProps) {
               width={120}
             />
             <Tooltip formatter={(value) => `${value} llamadas`} />
-            <Legend verticalAlign="top" height={36} />
             <Bar
               dataKey="cantidad"
               barSize={20}
               radius={[4, 4, 4, 4]}
               fill="#10B981"
+              label={{
+                position: "right",
+                fill: "#10B981",
+                fontWeight: "bold",
+                fontSize: 12,
+              }}
             />
           </BarChart>
         </ResponsiveContainer>
