@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useCampanas, useCampanaCreate } from "../hooks";
-import { campanaTableColumns, Table, Loading, Modal } from "../components";
+import { campanaTableColumns, Table, Loading, Modal, CampanaFiltersBar } from "../components";
+import { emptyCampanaFilters, type CampanaFilters } from "../../domain/entities";
 
 export default function Campanas() {
   const navigate = useNavigate();
-  const { campanas, loading, error, refetch } = useCampanas();
+  const [filters, setFilters] = useState<CampanaFilters>(emptyCampanaFilters);
+  const { campanas, loading, error, refetch } = useCampanas(filters);
   const { create, loading: creating } = useCampanaCreate();
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({
@@ -63,6 +65,8 @@ export default function Campanas() {
           + Nueva Campaña
         </button>
       </div>
+
+      <CampanaFiltersBar filters={filters} onChange={setFilters} />
 
       <Modal open={showForm} onClose={() => setShowForm(false)} title="Nueva Campaña">
         <form onSubmit={handleSubmit} className="space-y-4">

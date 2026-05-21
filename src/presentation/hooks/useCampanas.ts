@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import type { Campana } from "../../domain/entities";
+import type { Campana, CampanaFilters } from "../../domain/entities";
+import { emptyCampanaFilters } from "../../domain/entities";
 import { campanaService } from "../../domain/services";
 
 interface UseCampanasResult {
@@ -9,7 +10,25 @@ interface UseCampanasResult {
   refetch: () => void;
 }
 
-export function useCampanas(): UseCampanasResult {
+function filterCampanas(campanas: Campana[], filters: CampanaFilters): Campana[] {
+  return campanas.filter((c) => {
+    if (filters.titulo && !c.titulo?.toLowerCase().includes(filters.titulo.toLowerCase())) {
+      return false;
+    }
+    if (filters.estado && c.estado !== filters.estado) {
+      return false;
+    }
+    if (filters.fechaInicio && c.tiempo_inicial && c.tiempo_inicial < `${filters.fechaInicio}T00:00:00`) {
+      return false;
+    }
+    if (filters.fechaFin && c.tiempo_final && c.tiempo_final > `${filters.fechaFin}T23:59:59`) {
+      return false;
+    }
+    return true;
+  });
+}
+
+export function useCampanas(filters: CampanaFilters = emptyCampanaFilters): UseCampanasResult {
   const [campanas, setCampanas] = useState<Campana[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -19,13 +38,14 @@ export function useCampanas(): UseCampanasResult {
       setLoading(true);
       setError(null);
       const data = await campanaService.getAll();
-      setCampanas(data);
+      const filtered = filterCampanas(data, filters);
+      setCampanas(filtered);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error desconocido");
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [filters]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
