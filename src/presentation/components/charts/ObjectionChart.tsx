@@ -34,13 +34,16 @@ export default function ObjectionChart({ leads }: ObjectionChartProps) {
         counts[key] = (counts[key] || 0) + 1;
       }
     });
+
+    // Si ningún lead tiene objeción registrada, mostrar vacío
+    if (Object.keys(counts).length === 0) return [];
+
     return [
-      ...Object.entries(counts)
-        .map(([key, count]) => ({
-          label: LABELS[key] || key.charAt(0) + key.slice(1).toLowerCase(),
-          count,
-          color: COLORS[key] || "#6b7280",
-        })),
+      ...Object.entries(counts).map(([key, count]) => ({
+        label: LABELS[key] || key.charAt(0) + key.slice(1).toLowerCase(),
+        count,
+        color: COLORS[key] || "#6b7280",
+      })),
       ...(sinDato > 0 ? [{ label: "Sin dato", count: sinDato, color: "#9ca3af" }] : []),
     ].sort((a, b) => b.count - a.count);
   }, [leads]);

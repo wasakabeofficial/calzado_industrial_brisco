@@ -32,6 +32,10 @@ export default function InterestChart({ leads }: InterestChartProps) {
         counts[raw] = (counts[raw] || 0) + 1;
       }
     });
+
+    // Si ningún lead tiene nivel de interés registrado, mostrar vacío
+    if (Object.keys(counts).length === 0) return [];
+
     return [
       ...Object.entries(counts).map(([key, count]) => ({
         label: LABELS[key] || key,

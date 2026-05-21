@@ -36,6 +36,10 @@ export default function FollowUpActionChart({
         counts[key] = (counts[key] || 0) + 1;
       }
     });
+
+    // Si ningún lead tiene acción de seguimiento registrada, mostrar vacío
+    if (Object.keys(counts).length === 0) return [];
+
     return [
       ...Object.entries(counts).map(([key, count]) => ({
         label: LABELS[key] || key,

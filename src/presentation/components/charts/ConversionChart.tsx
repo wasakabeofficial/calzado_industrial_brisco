@@ -16,6 +16,10 @@ export default function ConversionChart({ leads }: ConversionChartProps) {
       else if (lead.conversion_lograda === false) rejected++;
       else sinDato++;
     });
+
+    // Si ningún lead tiene dato real de conversión, mostrar vacío
+    if (accepted === 0 && rejected === 0) return [];
+
     return [
       ...(accepted > 0 ? [{ label: "Aceptó", count: accepted, color: "#22c55e" }] : []),
       ...(rejected > 0 ? [{ label: "Rechazó", count: rejected, color: "#ef4444" }] : []),
