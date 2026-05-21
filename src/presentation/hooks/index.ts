@@ -3,3 +3,5 @@ export { useLeadDetail } from "./useLeadDetail";
 export { useLeadTranscription } from "./useLeadTranscription";
 export { useLeadAudio } from "./useLeadAudio";
 export { useCampanas } from "./useCampanas";
+export { useCampanaDetail } from "./useCampanaDetail";
+export { useCampanaCreate } from "./useCampanaCreate";

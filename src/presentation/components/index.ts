@@ -7,6 +7,7 @@ export { default as ObjectionChart } from "./ui/ObjectionChart";
 export { default as CallFrequencyChart } from "./ui/CallFrequencyChart";
 export { LeadFiltersBar } from "./ui/LeadFiltersBar";
 export { Loading, LoadingOverlay } from "./ui/Loading";
+export { default as Modal } from "./ui/Modal";
 
 export { leadTableColumns } from "./leadColumns";
 export { campanaTableColumns } from "./campanaColumns";

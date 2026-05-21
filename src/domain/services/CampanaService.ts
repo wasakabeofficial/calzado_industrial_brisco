@@ -27,4 +27,28 @@ export const campanaService = {
 
     return [];
   },
+
+  async create(data: Omit<Campana, "row_number">): Promise<void> {
+    const response = await fetch(n8nUrl(CAMPANAS_PATH), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+  },
+
+  async update(rowNumber: number, data: Partial<Campana>): Promise<void> {
+    const response = await fetch(n8nUrl(CAMPANAS_PATH), {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ row_number: rowNumber, ...data }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+  },
 };
