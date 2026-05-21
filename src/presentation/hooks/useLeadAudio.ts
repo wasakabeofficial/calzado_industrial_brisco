@@ -28,6 +28,7 @@ export function useLeadAudio(): UseLeadAudioResult {
           const baseUrl = GOOGLE_DRIVE_BASE_URL.replace(/\/$/, "");
           const gdUrl = `${baseUrl}/${audioId}/view`;
           window.open(gdUrl, "_blank", "noopener,noreferrer");
+          console.log("Audio URL:", gdUrl);
         }
       }
     } catch (err) {

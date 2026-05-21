@@ -20,6 +20,7 @@ export default function LeadDetail() {
   const handleFetchTranscription = () => {
     if (lead?.vapi_call_id) {
       fetchTranscription(lead.vapi_call_id);
+      console.log("Fetching transcription for call ID:", lead.vapi_call_id);
     }
   };
 
@@ -43,7 +44,7 @@ export default function LeadDetail() {
   if (!lead) return <div className="p-8">Lead no encontrado</div>;
 
   return (
-    <div className="p-8 max-w-4xl mx-auto">
+    <div className="p-8 max-w-6xl mx-auto">
       <button
         onClick={() => navigate(-1)}
         className="mb-6 text-orange-500 hover:text-orange-700 flex items-center gap-2"
