@@ -24,7 +24,6 @@ export default function CallEndReasonChart({ leads }: CallEndReasonChartProps) {
       const razon = lead.razon_terminado_llamada;
 
       if (!razon || razon === "N/A" || razon === "") {
-        counts["Sin dato"] = (counts["Sin dato"] || 0) + 1;
         return;
       }
 
@@ -38,6 +37,7 @@ export default function CallEndReasonChart({ leads }: CallEndReasonChartProps) {
     });
 
     return Object.entries(counts)
+      .filter(([, count]) => count > 0)
       .sort((a, b) => b[1] - a[1])
       .slice(0, 8)
       .map(([label, count], index) => ({

@@ -13,7 +13,6 @@ export default function CallDurationChart({ leads }: CallDurationChartProps) {
       "1-2 min": 0,
       "2-5 min": 0,
       "5+ min": 0,
-      "Sin dato": 0,
     };
 
     leads.forEach((lead) => {
@@ -25,7 +24,6 @@ export default function CallDurationChart({ leads }: CallDurationChartProps) {
         duracion === "" ||
         duracion === "N/A"
       ) {
-        counts["Sin dato"]++;
         return;
       }
 
@@ -33,7 +31,6 @@ export default function CallDurationChart({ leads }: CallDurationChartProps) {
         typeof duracion === "number" ? duracion : parseFloat(duracion);
 
       if (isNaN(segundos) || segundos < 0) {
-        counts["Sin dato"]++;
         return;
       }
 
@@ -50,7 +47,6 @@ export default function CallDurationChart({ leads }: CallDurationChartProps) {
       "1-2 min": "#f97316",
       "2-5 min": "#ef4444",
       "5+ min": "#dc2626",
-      "Sin dato": "#9ca3af",
     };
 
     return Object.entries(counts)
