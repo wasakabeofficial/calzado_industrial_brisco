@@ -27,17 +27,23 @@ export default function FollowUpActionChart({
 }: FollowUpActionChartProps) {
   const data = useMemo(() => {
     const counts: Record<string, number> = {};
+    let sinDato = 0;
     leads.forEach((lead) => {
-      const key = lead.accion_seguimiento ?? "SIN_ACCION";
-      counts[key] = (counts[key] || 0) + 1;
+      const key = lead.accion_seguimiento;
+      if (!key || key === "N/A") {
+        sinDato++;
+      } else {
+        counts[key] = (counts[key] || 0) + 1;
+      }
     });
-    return Object.entries(counts)
-      .map(([key, count]) => ({
+    return [
+      ...Object.entries(counts).map(([key, count]) => ({
         label: LABELS[key] || key,
         count,
         color: COLORS[key] || "#9ca3af",
-      }))
-      .sort((a, b) => b.count - a.count);
+      })),
+      ...(sinDato > 0 ? [{ label: "Sin dato", count: sinDato, color: "#d1d5db" }] : []),
+    ].sort((a, b) => b.count - a.count);
   }, [leads]);
 
   return (

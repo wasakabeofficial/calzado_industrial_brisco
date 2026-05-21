@@ -14,23 +14,35 @@ const COLORS: Record<string, string> = {
   OTRO: "#8b5cf6",
 };
 
+const LABELS: Record<string, string> = {
+  NINGUNA: "Ninguna",
+  PRECIO: "Precio",
+  INTERES: "Interés",
+  TIEMPO: "Tiempo",
+  OTRO: "Otro",
+};
+
 export default function ObjectionChart({ leads }: ObjectionChartProps) {
   const data = useMemo(() => {
     const counts: Record<string, number> = {};
+    let sinDato = 0;
     leads.forEach((lead) => {
-      const key = lead.objeccion_principal?.toUpperCase() || "NINGUNA";
-      counts[key] = (counts[key] || 0) + 1;
+      const key = lead.objeccion_principal?.toUpperCase();
+      if (!key || key === "N/A") {
+        sinDato++;
+      } else {
+        counts[key] = (counts[key] || 0) + 1;
+      }
     });
-    return Object.entries(counts)
-      .map(([key, count]) => ({
-        label:
-          key === "NINGUNA"
-            ? "Ninguna"
-            : key.charAt(0) + key.slice(1).toLowerCase(),
-        count,
-        color: COLORS[key] || "#6b7280",
-      }))
-      .sort((a, b) => b.count - a.count);
+    return [
+      ...Object.entries(counts)
+        .map(([key, count]) => ({
+          label: LABELS[key] || key.charAt(0) + key.slice(1).toLowerCase(),
+          count,
+          color: COLORS[key] || "#6b7280",
+        })),
+      ...(sinDato > 0 ? [{ label: "Sin dato", count: sinDato, color: "#9ca3af" }] : []),
+    ].sort((a, b) => b.count - a.count);
   }, [leads]);
 
   return (
