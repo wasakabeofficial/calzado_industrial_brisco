@@ -14,7 +14,7 @@ const COLORS: Record<string, string> = {
 };
 
 export default function CallStatusChart({ leads }: CallStatusChartProps) {
-  const statusData = useMemo(() => {
+  const chartData = useMemo(() => {
     const counts: Record<string, number> = {};
     leads.forEach((lead) => {
       const status = lead.vapi_call_status ?? "Desconocido";
@@ -34,18 +34,17 @@ export default function CallStatusChart({ leads }: CallStatusChartProps) {
 
   if (total === 0) {
     return (
-      <div className="bg-[#1a1a2e] border border-gray-700/30 rounded-xl p-4 md:p-6">
-        <h2 className="text-base md:text-xl font-bold text-white mb-3 md:mb-4">
+      <div className="bg-white border border-gray-200 rounded-xl p-4 md:p-6">
+        <h2 className="text-base md:text-lg font-semibold text-gray-900 mb-3 md:mb-4">
           Estado de Llamadas
         </h2>
-        <p className="text-gray-400 text-center py-8">No hay datos disponibles</p>
+        <p className="text-gray-400 text-center py-8 text-sm">No hay datos disponibles</p>
       </div>
     );
   }
 
-  // Generar slices del donut
   let cumulative = 0;
-  const slices = statusData.map((item) => {
+  const slices = chartData.map((item) => {
     const start = cumulative * 3.6;
     cumulative += item.percent;
     const end = cumulative * 3.6;
@@ -53,10 +52,22 @@ export default function CallStatusChart({ leads }: CallStatusChartProps) {
   });
 
   return (
-    <div className="bg-[#1a1a2e] border border-gray-700/30 rounded-xl p-4 md:p-6">
-      <h2 className="text-base md:text-xl font-bold text-white mb-3 md:mb-4">
+    <div className="bg-white border border-gray-200 rounded-xl p-4 md:p-6">
+      <h2 className="text-base md:text-lg font-semibold text-gray-900 mb-3 md:mb-4">
         Estado de Llamadas
       </h2>
+
+      <div className="flex flex-wrap gap-x-4 gap-y-2 mb-4">
+        {chartData.map((item) => (
+          <div key={item.label} className="flex items-center gap-1.5">
+            <span
+              className="inline-block w-2.5 h-2.5 rounded-sm flex-shrink-0"
+              style={{ backgroundColor: item.color }}
+            />
+            <span className="text-[10px] md:text-xs text-gray-500">{item.label}</span>
+          </div>
+        ))}
+      </div>
 
       <div className="flex flex-col items-center gap-4">
         <div className="relative w-32 h-32 md:w-36 md:h-36">
@@ -74,29 +85,40 @@ export default function CallStatusChart({ leads }: CallStatusChartProps) {
                 slice.percent >= 99.9
                   ? "M 50 12 A 38 38 0 1 1 49.99 12"
                   : `M 50 50 L ${x1} ${y1} A 38 38 0 ${large} 1 ${x2} ${y2} Z`;
-              return <path key={i} d={d} fill={slice.color} className="transition-all duration-300" />;
+              return (
+                <path
+                  key={i}
+                  d={d}
+                  fill={slice.color}
+                  className="transition-all duration-300"
+                />
+              );
             })}
-            <circle cx="50" cy="50" r="24" fill="#1a1a2e" />
+            <circle cx="50" cy="50" r="24" fill="white" />
           </svg>
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-lg font-bold text-white">{total}</span>
+            <span className="text-lg font-bold text-gray-900">{total}</span>
           </div>
         </div>
 
         <div className="w-full space-y-1.5">
-          {statusData.map((item) => (
+          {chartData.map((item) => (
             <div key={item.label} className="flex items-center gap-2">
               <div
-                className="w-2.5 h-2.5 rounded-full shrink-0"
+                className="w-2.5 h-2.5 rounded-sm shrink-0"
                 style={{ backgroundColor: item.color }}
               />
-              <span className="text-xs text-gray-300 flex-1 truncate">{item.label}</span>
-              <span className="text-xs font-medium text-white">
+              <span className="text-xs text-gray-500 flex-1 truncate">{item.label}</span>
+              <span className="text-xs font-medium text-gray-900">
                 {item.count} ({item.percent.toFixed(1)}%)
               </span>
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="mt-3 pt-3 border-t border-gray-100 text-[10px] md:text-xs text-gray-400 text-center">
+        Total de llamadas: {total}
       </div>
     </div>
   );
