@@ -1,12 +1,13 @@
 import { n8nClient } from "../../data/repositories";
+import { n8nUrl } from "../../data/repositories/n8nUrl";
 import type {
   ContactoBriscoResponse,
   LeadFilters,
   TranscriptionResponse,
 } from "../entities";
 
-const N8N_WEBHOOK_URL = import.meta.env.VITE_N8N_WEBHOOK_URL;
-const N8N_AUDIO_WEBHOOK_URL = import.meta.env.VITE_N8N_AUDIO_WEBHOOK_URL;
+const WEBHOOK_PATH = import.meta.env.VITE_N8N_WEBHOOK_PATH;
+const AUDIO_WEBHOOK_PATH = import.meta.env.VITE_N8N_AUDIO_WEBHOOK_PATH;
 
 export interface AudioResponse {
   audio: {
@@ -83,7 +84,7 @@ export const leadService = {
   },
 
   async getLeadTranscription(callId: string): Promise<string> {
-    const response = await fetch(`${N8N_WEBHOOK_URL}?call_id=${callId}`);
+    const response = await fetch(`${n8nUrl(WEBHOOK_PATH)}?call_id=${callId}`);
 
     if (!response.ok) {
       throw new Error(`Error ${response.status}: ${response.statusText}`);
@@ -96,7 +97,9 @@ export const leadService = {
   },
 
   async getLeadAudio(callId: string): Promise<AudioResponse> {
-    const response = await fetch(`${N8N_AUDIO_WEBHOOK_URL}?call_id=${callId}`);
+    const response = await fetch(
+      `${n8nUrl(AUDIO_WEBHOOK_PATH)}?call_id=${callId}`,
+    );
 
     if (!response.ok) {
       throw new Error(`Error ${response.status}: ${response.statusText}`);

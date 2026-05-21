@@ -1,10 +1,11 @@
 import type { Campana } from "../entities";
+import { n8nUrl } from "../../data/repositories/n8nUrl";
 
-const N8N_CAMPANAS_WEBHOOK_URL = import.meta.env.VITE_N8N_CAMPANAS_WEBHOOK_URL || "https://cesar.n8n-wsk.com/webhook/getCampanasBrisco";
+const CAMPANAS_PATH = import.meta.env.VITE_N8N_CAMPANAS_PATH;
 
 export const campanaService = {
   async getAll(): Promise<Campana[]> {
-    const response = await fetch(N8N_CAMPANAS_WEBHOOK_URL);
+    const response = await fetch(n8nUrl(CAMPANAS_PATH));
 
     if (!response.ok) {
       throw new Error(`Error ${response.status}: ${response.statusText}`);

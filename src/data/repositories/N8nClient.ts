@@ -1,10 +1,11 @@
 import type { ContactoBriscoResponse } from "../../domain/entities";
+import { n8nUrl } from "./n8nUrl";
 
-const N8N_WEBHOOK_URL = import.meta.env.VITE_N8N_CONTACTOS_WEBHOOK_URL;
+const CONTACTOS_PATH = import.meta.env.VITE_N8N_CONTACTOS_PATH;
 
 export const n8nClient = {
   async getContactos(): Promise<ContactoBriscoResponse[]> {
-    const response = await fetch(N8N_WEBHOOK_URL);
+    const response = await fetch(n8nUrl(CONTACTOS_PATH));
 
     if (!response.ok) {
       throw new Error(`Error ${response.status}: ${response.statusText}`);

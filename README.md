@@ -52,10 +52,12 @@ src/
 Crea un archivo `.env` en la raíz del proyecto:
 
 ```env
-# n8n Webhooks
-VITE_N8N_CONTACTOS_WEBHOOK_URL=https://tu-n8n.com/webhook/getContactosBrisco
-VITE_N8N_WEBHOOK_URL=https://tu-n8n.com/webhook/transcription
-VITE_N8N_AUDIO_WEBHOOK_URL=https://tu-n8n.com/webhook/audio
+# n8n
+VITE_N8N_BASE_URL=https://tu-n8n.com/webhook
+VITE_N8N_CONTACTOS_PATH=getContactosBrisco
+VITE_N8N_CAMPANAS_PATH=getCampanasBrisco
+VITE_N8N_WEBHOOK_PATH=web_google_drive
+VITE_N8N_AUDIO_WEBHOOK_PATH=web_google_drive_audio
 
 # Google Drive
 VITE_GOOGLE_DRIVE_BASE_URL=https://drive.google.com/file/d/
