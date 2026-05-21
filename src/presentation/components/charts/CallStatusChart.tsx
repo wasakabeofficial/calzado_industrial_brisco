@@ -43,12 +43,13 @@ export default function CallStatusChart({ leads }: CallStatusChartProps) {
     );
   }
 
-  let cumulative = 0;
-  const slices = chartData.map((item) => {
-    const start = cumulative * 3.6;
-    cumulative += item.percent;
-    const end = cumulative * 3.6;
-    return { ...item, startAngle: start, endAngle: end };
+  const slices = chartData.map((item, i) => {
+    const cumulative = chartData.slice(0, i).reduce((sum, d) => sum + d.percent, 0);
+    return {
+      ...item,
+      startAngle: cumulative * 3.6,
+      endAngle: (cumulative + item.percent) * 3.6,
+    };
   });
 
   return (
