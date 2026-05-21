@@ -27,17 +27,23 @@ export default function CallDurationChart({ leads }: CallDurationChartProps) {
         return;
       }
 
-      const segundos =
+      // Formato: parte entera = minutos, 2 decimales = segundos
+      // Ej: 1.1906 → 1 minuto + 19 segundos
+      const valor =
         typeof duracion === "number" ? duracion : parseFloat(duracion);
 
-      if (isNaN(segundos) || segundos < 0) {
+      if (isNaN(valor) || valor < 0) {
         return;
       }
 
-      if (segundos <= 30) counts["0-30s"]++;
-      else if (segundos <= 60) counts["31-60s"]++;
-      else if (segundos <= 120) counts["1-2 min"]++;
-      else if (segundos <= 300) counts["2-5 min"]++;
+      const minutos = Math.floor(valor);
+      const segundosDecimal = Math.round((valor - minutos) * 100);
+      const totalSegundos = minutos * 60 + segundosDecimal;
+
+      if (totalSegundos <= 30) counts["0-30s"]++;
+      else if (totalSegundos <= 60) counts["31-60s"]++;
+      else if (totalSegundos <= 120) counts["1-2 min"]++;
+      else if (totalSegundos <= 300) counts["2-5 min"]++;
       else counts["5+ min"]++;
     });
 

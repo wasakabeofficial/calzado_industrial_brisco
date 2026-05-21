@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import type { ContactoBriscoResponse } from "../../domain/entities";
 
 interface LeadInfoProps {
@@ -20,7 +21,15 @@ export default function LeadInfo({ lead }: LeadInfoProps) {
   const resumen = lead.resumen_llamada;
   const objeccion = lead.objeccion_principal ?? "N/A";
   const descripcionObjeccion = lead.descripcion_objeccion_principal;
-  const duracionLlamada = lead.duracion_llamada ?? "N/A";
+  const duracionLlamada = useMemo(() => {
+    const d = lead.duracion_llamada;
+    if (d === undefined || d === null || d === "" || d === "N/A") return "N/A";
+    const valor = typeof d === "number" ? d : parseFloat(d);
+    if (isNaN(valor) || valor < 0) return "N/A";
+    const min = Math.floor(valor);
+    const seg = Math.round((valor - min) * 100);
+    return `${min} min ${seg} s`;
+  }, [lead.duracion_llamada]);
   const razonTerminado = lead.razon_terminado_llamada ?? "N/A";
   const fechaRegistro = lead.created_at ?? new Date().toISOString();
 
@@ -85,7 +94,7 @@ export default function LeadInfo({ lead }: LeadInfoProps) {
           </div>
         )}
         <div>
-          <p className="text-sm text-gray-500">Conversación Lograda</p>
+          <p className="text-sm text-gray-500">Conversión Lograda</p>
           <p className="text-lg text-gray-900">{conversion ? "Sí" : "No"}</p>
         </div>
         <div>
@@ -116,7 +125,7 @@ export default function LeadInfo({ lead }: LeadInfoProps) {
         )}
         <div>
           <p className="text-sm text-gray-500">Duración de Llamada</p>
-          <p className="text-lg text-gray-900">{duracionLlamada}</p>
+          <p className="text-lg text-gray-900">{duracionLlamada}</p> mint.
         </div>
         <div>
           <p className="text-sm text-gray-500">Razón de Terminación</p>
