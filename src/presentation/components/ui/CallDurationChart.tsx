@@ -1,13 +1,4 @@
 import { useMemo } from "react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
 import type { ContactoBriscoResponse } from "../../../domain/entities";
 
 interface CallDurationChartProps {
@@ -16,7 +7,7 @@ interface CallDurationChartProps {
 
 export default function CallDurationChart({ leads }: CallDurationChartProps) {
   const chartData = useMemo(() => {
-    const durationCounts: Record<string, number> = {
+    const counts: Record<string, number> = {
       "0-30s": 0,
       "31-60s": 0,
       "1-2 min": 0,
@@ -28,35 +19,55 @@ export default function CallDurationChart({ leads }: CallDurationChartProps) {
     leads.forEach((lead) => {
       const duracion = lead.duracion_llamada;
 
-      // Si no hay dato, es string vacío o "N/A"
-      if (duracion === undefined || duracion === null || duracion === "" || duracion === "N/A") {
-        durationCounts["Sin dato"]++;
+      if (
+        duracion === undefined ||
+        duracion === null ||
+        duracion === "" ||
+        duracion === "N/A"
+      ) {
+        counts["Sin dato"]++;
         return;
       }
 
-      // Convertir a número (segundos)
-      const segundos = typeof duracion === "number" ? duracion : parseFloat(duracion);
+      const segundos =
+        typeof duracion === "number" ? duracion : parseFloat(duracion);
 
       if (isNaN(segundos) || segundos < 0) {
-        durationCounts["Sin dato"]++;
+        counts["Sin dato"]++;
         return;
       }
 
-      if (segundos <= 30) durationCounts["0-30s"]++;
-      else if (segundos <= 60) durationCounts["31-60s"]++;
-      else if (segundos <= 120) durationCounts["1-2 min"]++;
-      else if (segundos <= 300) durationCounts["2-5 min"]++;
-      else durationCounts["5+ min"]++;
+      if (segundos <= 30) counts["0-30s"]++;
+      else if (segundos <= 60) counts["31-60s"]++;
+      else if (segundos <= 120) counts["1-2 min"]++;
+      else if (segundos <= 300) counts["2-5 min"]++;
+      else counts["5+ min"]++;
     });
 
-    return Object.entries(durationCounts)
-      .map(([rango, cantidad]) => ({ rango, cantidad }))
-      .filter((item) => item.cantidad > 0);
+    const colors: Record<string, string> = {
+      "0-30s": "#22c55e",
+      "31-60s": "#16a34a",
+      "1-2 min": "#f97316",
+      "2-5 min": "#ef4444",
+      "5+ min": "#dc2626",
+      "Sin dato": "#9ca3af",
+    };
+
+    return Object.entries(counts)
+      .filter(([, count]) => count > 0)
+      .map(([label, count]) => ({
+        label,
+        count,
+        color: colors[label] ?? "#6b7280",
+      }));
   }, [leads]);
+
+  const maxCount = Math.max(...chartData.map((d) => d.count), 1);
+  const total = leads.length;
 
   if (leads.length === 0 || chartData.length === 0) {
     return (
-      <div className="bg-white p-4 md:p-6">
+      <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-6">
         <h2 className="text-base md:text-xl font-bold text-gray-900 mb-3 md:mb-4">
           Duración de Llamadas
         </h2>
@@ -68,50 +79,37 @@ export default function CallDurationChart({ leads }: CallDurationChartProps) {
   }
 
   return (
-    <div className="bg-white p-4 md:p-6">
+    <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-6">
       <h2 className="text-base md:text-xl font-bold text-gray-900 mb-3 md:mb-4">
         Duración de Llamadas
       </h2>
 
-      <div className="h-48 md:h-64">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={chartData}
-            margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
-          >
-            <CartesianGrid vertical={false} stroke="#f5f5f5" />
-            <XAxis
-              dataKey="cantidad"
-              tick={{ fontSize: 10, fill: "#000000", fontWeight: "bold" }}
-              axisLine={{ stroke: "#000000", strokeWidth: 1.5 }}
-              tickLine={false}
-            />
-            <YAxis
-              dataKey="rango"
-              tick={{ fontSize: 10, fill: "#000000", fontWeight: "bold" }}
-              axisLine={{ stroke: "#000000", strokeWidth: 1.5 }}
-              tickLine={false}
-              width={80}
-            />
-            <Tooltip formatter={(value) => `${value} llamadas`} />
-            <Bar
-              dataKey="cantidad"
-              barSize={20}
-              radius={[4, 4, 4, 4]}
-              fill="#6320EE"
-              label={{
-                position: "right",
-                fill: "#6320EE",
-                fontWeight: "bold",
-                fontSize: 12,
-              }}
-            />
-          </BarChart>
-        </ResponsiveContainer>
+      <div className="space-y-3 md:space-y-4">
+        {chartData.map((item) => (
+          <div key={item.label} className="flex items-center gap-3">
+            <span className="text-xs md:text-sm text-gray-700 w-16 md:w-20 shrink-0 text-right">
+              {item.label}
+            </span>
+            <div className="flex-1 bg-gray-100 rounded-full h-5 md:h-6 overflow-hidden">
+              <div
+                className="h-full rounded-full transition-all duration-300 flex items-center justify-end px-2"
+                style={{
+                  width: `${(item.count / maxCount) * 100}%`,
+                  backgroundColor: item.color,
+                  minWidth: item.count > 0 ? "24px" : "0px",
+                }}
+              >
+                <span className="text-xs font-bold text-white drop-shadow-sm">
+                  {item.count}
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
       <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t border-gray-100 text-xs md:text-sm text-gray-500 text-center">
-        Total de llamadas analizadas: {leads.length}
+        Total de llamadas analizadas: {total}
       </div>
     </div>
   );
