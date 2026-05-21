@@ -22,7 +22,9 @@ const LABELS: Record<string, string> = {
   SIN_ACCION: "Sin Acción",
 };
 
-export default function FollowUpActionChart({ leads }: FollowUpActionChartProps) {
+export default function FollowUpActionChart({
+  leads,
+}: FollowUpActionChartProps) {
   const data = useMemo(() => {
     const counts: Record<string, number> = {};
     leads.forEach((lead) => {

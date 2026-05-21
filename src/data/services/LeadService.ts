@@ -7,8 +7,8 @@ import type {
   TranscriptionResponse,
 } from "../../domain/entities";
 
-const WEBHOOK_PATH = import.meta.env.VITE_N8N_WEBHOOK_PATH || "web_google_drive";
-const AUDIO_WEBHOOK_PATH = import.meta.env.VITE_N8N_AUDIO_WEBHOOK_PATH || "web_google_drive_audio";
+const WEBHOOK_PATH = import.meta.env.VITE_N8N_WEBHOOK_PATH;
+const AUDIO_WEBHOOK_PATH = import.meta.env.VITE_N8N_AUDIO_WEBHOOK_PATH;
 
 export interface AudioResponse {
   audio: {

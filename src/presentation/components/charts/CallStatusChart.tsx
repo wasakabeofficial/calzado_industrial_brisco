@@ -38,13 +38,17 @@ export default function CallStatusChart({ leads }: CallStatusChartProps) {
         <h2 className="text-base md:text-lg font-semibold text-gray-900 mb-3 md:mb-4">
           Estado de Llamadas
         </h2>
-        <p className="text-gray-400 text-center py-8 text-sm">No hay datos disponibles</p>
+        <p className="text-gray-400 text-center py-8 text-sm">
+          No hay datos disponibles
+        </p>
       </div>
     );
   }
 
   const slices = chartData.map((item, i) => {
-    const cumulative = chartData.slice(0, i).reduce((sum, d) => sum + d.percent, 0);
+    const cumulative = chartData
+      .slice(0, i)
+      .reduce((sum, d) => sum + d.percent, 0);
     return {
       ...item,
       startAngle: cumulative * 3.6,
@@ -62,10 +66,12 @@ export default function CallStatusChart({ leads }: CallStatusChartProps) {
         {chartData.map((item) => (
           <div key={item.label} className="flex items-center gap-1.5">
             <span
-              className="inline-block w-2.5 h-2.5 rounded-sm flex-shrink-0"
+              className="inline-block w-2.5 h-2.5 rounded-sm shrink-0"
               style={{ backgroundColor: item.color }}
             />
-            <span className="text-[10px] md:text-xs text-gray-500">{item.label}</span>
+            <span className="text-[10px] md:text-xs text-gray-500">
+              {item.label}
+            </span>
           </div>
         ))}
       </div>
@@ -109,7 +115,9 @@ export default function CallStatusChart({ leads }: CallStatusChartProps) {
                 className="w-2.5 h-2.5 rounded-sm shrink-0"
                 style={{ backgroundColor: item.color }}
               />
-              <span className="text-xs text-gray-500 flex-1 truncate">{item.label}</span>
+              <span className="text-xs text-gray-500 flex-1 truncate">
+                {item.label}
+              </span>
               <span className="text-xs font-medium text-gray-900">
                 {item.count} ({item.percent.toFixed(1)}%)
               </span>

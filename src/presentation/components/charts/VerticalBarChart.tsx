@@ -23,7 +23,10 @@ export default function VerticalBarChart({
   footerLabel = "Total",
   emptyMessage = "No hay datos disponibles",
 }: VerticalBarChartProps) {
-  const maxCount = useMemo(() => Math.max(...data.map((d) => d.count), 1), [data]);
+  const maxCount = useMemo(
+    () => Math.max(...data.map((d) => d.count), 1),
+    [data],
+  );
 
   if (total === 0 || data.length === 0) {
     return (
@@ -47,10 +50,10 @@ export default function VerticalBarChart({
         {data.map((item) => (
           <div key={item.label} className="flex items-center gap-1.5">
             <span
-              className="inline-block w-2.5 h-2.5 rounded-sm flex-shrink-0"
+              className="inline-block w-2.5 h-2.5 rounded-sm shrink-0"
               style={{ backgroundColor: item.color }}
             />
-            <span className="text-[10px] md:text-xs text-gray-500 truncate max-w-[120px]">
+            <span className="text-[10px] md:text-xs text-gray-500 truncate max-w-30">
               {item.label}
             </span>
           </div>

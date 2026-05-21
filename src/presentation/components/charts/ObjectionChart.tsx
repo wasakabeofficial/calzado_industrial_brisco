@@ -23,7 +23,10 @@ export default function ObjectionChart({ leads }: ObjectionChartProps) {
     });
     return Object.entries(counts)
       .map(([key, count]) => ({
-        label: key === "NINGUNA" ? "Ninguna" : key.charAt(0) + key.slice(1).toLowerCase(),
+        label:
+          key === "NINGUNA"
+            ? "Ninguna"
+            : key.charAt(0) + key.slice(1).toLowerCase(),
         count,
         color: COLORS[key] || "#6b7280",
       }))
