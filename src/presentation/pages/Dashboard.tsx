@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
-import { leadTableColumns } from "../components/leadColumns";
 import { useLeadList } from "../hooks";
 import {
   CallFrequencyChart,
@@ -9,14 +7,12 @@ import {
   FollowUpActionChart,
   InterestChart,
   ObjectionChart,
-  Table,
   LeadFiltersBar,
   Loading,
 } from "../components";
 import { emptyFilters, type LeadFilters } from "../../domain/entities";
 
-export default function LeadTable() {
-  const navigate = useNavigate();
+export default function Dashboard() {
   const [filters, setFilters] = useState<LeadFilters>(emptyFilters);
   const { leads, loading, error } = useLeadList(filters);
 
@@ -57,16 +53,6 @@ export default function LeadTable() {
         <FollowUpActionChart leads={leads} />
         <ObjectionChart leads={leads} />
         <CallFrequencyChart leads={leads} />
-      </div>
-
-      <div className="overflow-hidden bg-white border border-gray-200 shadow-sm rounded-xl">
-        <Table
-          columns={leadTableColumns}
-          data={leads}
-          onRowClick={(lead) => navigate(`/lead/${lead.id_cliente}`)}
-          loading={loading}
-          emptyMessage="No hay registros de leads disponibles en este momento."
-        />
       </div>
     </div>
   );

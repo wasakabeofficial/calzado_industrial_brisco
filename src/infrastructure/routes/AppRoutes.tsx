@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router";
 import { Layout } from "../../presentation/layout";
-import { LeadTable, LeadDetail } from "../../presentation/pages";
+import { Dashboard, Clientes, LeadDetail } from "../../presentation/pages";
 
 export default function AppRoutes() {
   return (
@@ -9,7 +9,15 @@ export default function AppRoutes() {
         path="/"
         element={
           <Layout>
-            <LeadTable />
+            <Dashboard />
+          </Layout>
+        }
+      />
+      <Route
+        path="/clientes"
+        element={
+          <Layout>
+            <Clientes />
           </Layout>
         }
       />
