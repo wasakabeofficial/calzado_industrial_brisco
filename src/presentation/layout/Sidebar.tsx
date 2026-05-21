@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router";
-import { MdDashboard, MdPeople, MdCampaign } from "react-icons/md";
+import { MdDashboard, MdPeople } from "react-icons/md";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 
 interface SidebarItem {
@@ -12,7 +12,6 @@ interface SidebarItem {
 const sidebarItems: SidebarItem[] = [
   { label: "Dashboard", icon: <MdDashboard size={22} />, path: "/" },
   { label: "Clientes", icon: <MdPeople size={22} />, path: "/clientes" },
-  { label: "Campañas", icon: <MdCampaign size={22} />, path: "/campanas" },
 ];
 
 export default function Sidebar() {

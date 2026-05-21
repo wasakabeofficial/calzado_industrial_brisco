@@ -4,13 +4,12 @@
 [![Tests](https://img.shields.io/github/actions/workflow/status/wasakabeofficial/calzado_industrial_brisco/ci.yml?label=Tests)](https://github.com/wasakabeofficial/calzado_industrial_brisco/actions)
 [![Coverage](https://codecov.io/gh/wasakabeofficial/calzado_industrial_brisco/branch/main/graph/badge.svg)](https://codecov.io/gh/wasakabeofficial/calzado_industrial_brisco)
 
-Dashboard de gestión de leads y campañas para Calzado Industrial Brisco, una empresa mexicana dedicada a la fabricación y distribución de calzado industrial.
+Dashboard de gestión de leads para Calzado Industrial Brisco, una empresa mexicana dedicada a la fabricación y distribución de calzado industrial.
 
 ## 🚀 Características
 
-- **Dashboard** - 6 gráficos interactivos con métricas de leads
+- **Dashboard** - 4 gráficos interactivos con métricas de leads
 - **Clientes** - Tabla de clientes con filtros avanzados
-- **Campañas** - CRUD completo (crear, editar, filtrar) con modal de creación
 - **Sidebar** - Navegación colapsable con iconos (react-icons)
 - **Transcripciones** - Obtención de transcripciones de llamadas via webhook n8n
 - **Audio de Llamadas** - Escucha de grabaciones via Google Drive
@@ -33,17 +32,17 @@ Dashboard de gestión de leads y campañas para Calzado Industrial Brisco, una e
 ```
 src/
 ├── domain/              # Capa de dominio
-│   ├── entities/       # Tipos e interfaces (ContactoBriscoResponse, Campana, etc.)
-│   └── services/       # Lógica de negocio (LeadService, CampanaService)
+│   ├── entities/       # Tipos e interfaces (ContactoBriscoResponse, LeadFilters, etc.)
+│   └── services/       # Lógica de negocio (LeadService)
 ├── data/                # Capa de datos
 │   └── repositories/    # Cliente n8n (n8nUrl helper)
 ├── infrastructure/      # Capa de infraestructura
 │   └── routes/          # Configuración de rutas
 └── presentation/        # Capa de presentación
     ├── components/      # Componentes UI (charts, tablas, filtros, modal, loading)
-    ├── hooks/           # Hooks personalizados (useLeadList, useCampanas, etc.)
+    ├── hooks/           # Hooks personalizados (useLeadList, etc.)
     ├── layout/          # Layout, Sidebar, Logo
-    └── pages/           # Páginas (Dashboard, Clientes, Campanas, CampanaDetail, LeadDetail)
+    └── pages/           # Páginas (Dashboard, Clientes, LeadDetail)
 ```
 
 ## 📄 Rutas
@@ -52,8 +51,6 @@ src/
 |------|-------------|
 | `/` | Dashboard con gráficos |
 | `/clientes` | Tabla de clientes con filtros |
-| `/campanas` | Tabla de campañas con filtros y botón crear |
-| `/campanas/:id` | Detalle y edición de campaña |
 | `/lead/:id` | Detalle de lead con transcripción y audio |
 
 ## ⚙️ Configuración
@@ -66,7 +63,6 @@ Crea un archivo `.env` en la raíz del proyecto:
 # n8n
 VITE_N8N_BASE_URL=https://tu-n8n.com/webhook
 VITE_N8N_CONTACTOS_PATH=getContactosBrisco
-VITE_N8N_CAMPANAS_PATH=getCampanasBrisco
 VITE_N8N_WEBHOOK_PATH=web_google_drive
 VITE_N8N_AUDIO_WEBHOOK_PATH=web_google_drive_audio
 
@@ -93,13 +89,12 @@ npm run lint         # Linting
 3. **ConversionChart** - Tasa de conversión
 4. **FollowUpActionChart** - Acciones de seguimiento
 5. **ObjectionChart** - Objeciones principales
-6. **CallFrequencyChart** - Frecuencia de llamadas (línea)
 
 ## 🔗 Integraciones
 
 | Servicio | Uso |
 |----------|-----|
-| **n8n Webhooks** | Obtención de contactos, campañas, transcripciones y audios |
+| **n8n Webhooks** | Obtención de contactos, transcripciones y audios |
 | **Google Drive** | Almacenamiento y reproducción de grabaciones |
 
 ## ✅ Quality Assurance
