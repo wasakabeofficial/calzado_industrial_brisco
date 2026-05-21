@@ -8,12 +8,13 @@ Dashboard de gestión de leads para Calzado Industrial Brisco, una empresa mexic
 
 ## 🚀 Características
 
-- **Dashboard** - 4 gráficos interactivos con métricas de leads
-- **Clientes** - Tabla de clientes con filtros avanzados
-- **Sidebar** - Navegación colapsable con iconos (react-icons)
-- **Transcripciones** - Obtención de transcripciones de llamadas via webhook n8n
-- **Audio de Llamadas** - Escucha de grabaciones via Google Drive
-- **Diseño Responsivo** - Interfaz adaptable a móvil, tablet y desktop
+- **Dashboard** — 7 gráficos interactivos con métricas de leads (barras verticales, donut, barras horizontales)
+- **Clientes** — Tabla de clientes con filtros avanzados (proceso, empresa, cliente, fechas, interés, duración, razón de terminación)
+- **Sidebar** — Navegación colapsable con iconos (react-icons)
+- **Lead Detail** — Información detallada del lead con secciones organizadas, badges de estado y transcripción/audio
+- **Transcripciones** — Obtención de transcripciones de llamadas via webhook n8n
+- **Audio de Llamadas** — Escucha de grabaciones via Google Drive
+- **Diseño Responsivo** — Interfaz adaptable a móvil, tablet y desktop
 
 ## 🛠️ Stack Tecnológico
 
@@ -22,8 +23,8 @@ Dashboard de gestión de leads para Calzado Industrial Brisco, una empresa mexic
 | Frontend | React 19 + TypeScript |
 | Build Tool | Vite 8 |
 | Estilos | Tailwind CSS v4 |
-| Fuente de Datos | n8n Webhook (API REST) |
-| Gráficos | Recharts |
+| Fuente de Datos | n8n Webhook (API REST) + Supabase |
+| Gráficos | HTML/CSS puro (barras, donut SVG) |
 | Orquestación | n8n (webhooks) |
 | Testing | Vitest + React Testing Library |
 
@@ -40,7 +41,7 @@ src/
 │   └── routes/          # Configuración de rutas
 └── presentation/        # Capa de presentación
     ├── components/      # Componentes UI (charts, tablas, filtros, modal, loading)
-    ├── hooks/           # Hooks personalizados (useLeadList, etc.)
+    ├── hooks/           # Hooks personalizados (useLeadList, useLeadDetail, etc.)
     ├── layout/          # Layout, Sidebar, Logo
     └── pages/           # Páginas (Dashboard, Clientes, LeadDetail)
 ```
@@ -49,7 +50,7 @@ src/
 
 | Ruta | Descripción |
 |------|-------------|
-| `/` | Dashboard con gráficos |
+| `/` | Dashboard con 7 gráficos |
 | `/clientes` | Tabla de clientes con filtros |
 | `/lead/:id` | Detalle de lead con transcripción y audio |
 
@@ -60,6 +61,10 @@ src/
 Crea un archivo `.env` en la raíz del proyecto:
 
 ```env
+# Supabase
+VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=tu_key
+
 # n8n
 VITE_N8N_BASE_URL=https://tu-n8n.com/webhook
 VITE_N8N_CONTACTOS_PATH=getContactosBrisco
@@ -84,26 +89,37 @@ npm run lint         # Linting
 
 ## 📊 Gráficos Disponibles
 
-1. **InterestChart** - Distribución por nivel de interés
-2. **CallStatusChart** - Estado de las llamadas (gráfico circular)
-3. **ConversionChart** - Tasa de conversión
-4. **FollowUpActionChart** - Acciones de seguimiento
-5. **ObjectionChart** - Objeciones principales
+| # | Componente | Tipo | Descripción |
+|---|-----------|------|-------------|
+| 1 | **InterestChart** | Barras verticales | Distribución por nivel de interés (Alto, Medio, Bajo, Sin interés) |
+| 2 | **CallStatusChart** | Donut SVG | Estado de las llamadas (Completado, Fallido, Sin Respuesta, etc.) |
+| 3 | **ConversionChart** | Barras verticales | Tasa de conversión (Aceptó vs Rechazó) |
+| 4 | **FollowUpActionChart** | Barras verticales | Acciones de seguimiento (Cotización, Catálogo, Reprogramar, etc.) |
+| 5 | **ObjectionChart** | Barras verticales | Objeciones principales (Precio, Interés, Tiempo, Ninguna) |
+| 6 | **CallDurationChart** | Barras verticales | Duración de llamadas agrupada en rangos (0-30s, 31-60s, 1-2min, etc.) |
+| 7 | **CallEndReasonChart** | Barras verticales | Top 8 razones de terminación de llamada |
+
+Todos los gráficos incluyen:
+- Leyenda personalizada con indicadores de color
+- Tooltip interactivo al hacer hover
+- Diseño responsivo full-width
+- Total de registros en el pie del gráfico
 
 ## 🔗 Integraciones
 
 | Servicio | Uso |
 |----------|-----|
+| **Supabase** | Autenticación y almacenamiento |
 | **n8n Webhooks** | Obtención de contactos, transcripciones y audios |
 | **Google Drive** | Almacenamiento y reproducción de grabaciones |
 
 ## ✅ Quality Assurance
 
-- **Vitest** - Testing unitario con React Testing Library
-- **ESLint** - Linting de código
-- **TypeScript** - Tipado estático
-- **GitHub Actions** - CI/CD automatizado
-- **Codecov** - Reports de cobertura
+- **Vitest** — Testing unitario con React Testing Library (10 suites, 35 tests)
+- **ESLint** — Linting de código
+- **TypeScript** — Tipado estático
+- **GitHub Actions** — CI/CD automatizado
+- **Codecov** — Reports de cobertura
 
 ## 👥 Equipo
 
