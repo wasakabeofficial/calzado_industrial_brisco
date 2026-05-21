@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import InterestChart from '@/presentation/components/ui/InterestChart'
+import InterestChart from '@/presentation/components/charts/InterestChart'
 import { mockLeads } from '@/test/mocks/leads'
 
 describe('InterestChart Component', () => {

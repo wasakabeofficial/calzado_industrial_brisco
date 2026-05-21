@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import CallStatusChart from "@/presentation/components/ui/CallStatusChart";
+import CallStatusChart from "@/presentation/components/charts/CallStatusChart";
 import { mockLeads } from "@/test/mocks/leads";
 
 describe("CallStatusChart Component", () => {
