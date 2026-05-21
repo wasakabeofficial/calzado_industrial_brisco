@@ -32,7 +32,7 @@ export default defineConfig({
     exclude: ["node_modules", "dist"],
     coverage: {
       provider: "v8",
-      reporter: ["text", "json", "html", "lcovonly"],
+      reporter: ["text", "json", "html"],
       include: ["src/**/*.{ts,tsx}", "!src/**/*.d.ts"],
       reportsDirectory: "coverage",
     },

@@ -2,7 +2,6 @@
 
 ![CI/CD](https://github.com/wasakabeofficial/calzado_industrial_brisco/actions/workflows/ci.yml/badge.svg)
 [![Tests](https://img.shields.io/github/actions/workflow/status/wasakabeofficial/calzado_industrial_brisco/ci.yml?label=Tests)](https://github.com/wasakabeofficial/calzado_industrial_brisco/actions)
-[![Coverage](https://codecov.io/gh/wasakabeofficial/calzado_industrial_brisco/branch/main/graph/badge.svg)](https://codecov.io/gh/wasakabeofficial/calzado_industrial_brisco)
 
 Dashboard de gestión de leads para **Calzado Industrial Brisco**, empresa mexicana dedicada a la fabricación y distribución de calzado industrial.
 
@@ -116,7 +115,6 @@ Los 6 de barras usan `VerticalBarChart` (componente reutilizable). Todos incluye
 - **ESLint** — 0 errores, 0 warnings
 - **TypeScript** — Tipado estático estricto
 - **GitHub Actions** — CI/CD automatizado
-- **Codecov** — Reports de cobertura
 
 ## 👥 Equipo
 
