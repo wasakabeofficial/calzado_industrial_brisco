@@ -79,7 +79,7 @@ VITE_GOOGLE_DRIVE_BASE_URL=https://drive.google.com/file/d/
 
 # Autenticación n8n
 VITE_N8N_AUTHORIZATION_HEADER=Authorization
-VITE_N8N_AUTHORIZATION_TOKEN=Bearer BriscoNeuropoint.ai
+VITE_N8N_AUTHORIZATION_TOKEN=Bearer *****************
 ```
 
 ### Scripts
