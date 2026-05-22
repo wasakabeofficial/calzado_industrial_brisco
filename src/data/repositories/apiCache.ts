@@ -47,7 +47,9 @@ export async function executeWithCache<T>(
   const cached = getFromCache<T>(cacheKey);
   if (cached !== undefined) return cached;
 
-  const existingRequest = pendingRequests.get(cacheKey) as Promise<T> | undefined;
+  const existingRequest = pendingRequests.get(cacheKey) as
+    | Promise<T>
+    | undefined;
   if (existingRequest) return existingRequest;
 
   const promise = fetchFunction()

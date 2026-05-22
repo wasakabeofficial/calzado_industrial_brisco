@@ -39,7 +39,9 @@ export const leadService = {
   },
 
   async getLeadTranscription(callId: string): Promise<string> {
-    const response = await n8nFetch(`${n8nUrl(WEBHOOK_PATH)}?call_id=${callId}`);
+    const response = await n8nFetch(
+      `${n8nUrl(WEBHOOK_PATH)}?call_id=${callId}`,
+    );
 
     if (!response.ok) {
       throw new Error(`Error ${response.status}: ${response.statusText}`);

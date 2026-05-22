@@ -13,6 +13,8 @@ Dashboard de gestión de leads para **Calzado Industrial Brisco**, empresa mexic
 - **Sidebar** — Navegación colapsable con iconos (react-icons)
 - **Transcripciones** — Obtención de transcripciones via webhook n8n
 - **Audio de Llamadas** — Reproducción de grabaciones via Google Drive
+- **Cache Inteligente** — Cache en memoria con TTL de 5 min y deduplicación de requests para evitar saturar n8n
+- **Autenticación n8n** — Header de autorización configurable via variables de entorno
 - **Diseño Responsivo** — adaptable a móvil, tablet y desktop
 
 ## 🛠️ Stack Tecnológico
@@ -36,7 +38,7 @@ src/
 │   ├── entities/          → ContactoBriscoResponse, LeadFilters
 │   └── services/          → filterLeads() — lógica de negocio pura
 ├── data/                  ← Datos: depende solo de domain/
-│   ├── repositories/      → N8nClient, n8nUrl
+│   ├── repositories/      → N8nClient, n8nFetch, n8nUrl, apiCache
 │   └── services/          → leadService (orquestación API + filtrado)
 └── presentation/          ← UI: depende de domain/ y data/
     ├── components/
