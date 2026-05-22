@@ -1,66 +1,66 @@
-const TTL_MS = 5 * 60 * 1000; // 5 minutos
+const DEFAULT_EXPIRATION = 5 * 60 * 1000;
 
 interface CacheEntry<T> {
   data: T;
   expiresAt: number;
 }
 
-const store = new Map<string, CacheEntry<unknown>>();
-const inflight = new Map<string, Promise<unknown>>();
+const cacheStore = new Map<string, CacheEntry<unknown>>();
+const pendingRequests = new Map<string, Promise<unknown>>();
 
-export function getCached<T>(key: string): T | undefined {
-  const entry = store.get(key) as CacheEntry<T> | undefined;
+export function getFromCache<T>(cacheKey: string): T | undefined {
+  const entry = cacheStore.get(cacheKey) as CacheEntry<T> | undefined;
   if (!entry) return undefined;
   if (Date.now() > entry.expiresAt) {
-    store.delete(key);
+    cacheStore.delete(cacheKey);
     return undefined;
   }
   return entry.data;
 }
 
-export function setCache<T>(key: string, data: T, ttl?: number): void {
-  store.set(key, { data, expiresAt: Date.now() + (ttl ?? TTL_MS) });
+export function setInCache<T>(
+  cacheKey: string,
+  data: T,
+  expiration?: number,
+): void {
+  cacheStore.set(cacheKey, {
+    data,
+    expiresAt: Date.now() + (expiration ?? DEFAULT_EXPIRATION),
+  });
 }
 
-export function clearCache(key?: string): void {
-  if (key) {
-    store.delete(key);
-    inflight.delete(key);
+export function clearCache(cacheKey?: string): void {
+  if (cacheKey) {
+    cacheStore.delete(cacheKey);
+    pendingRequests.delete(cacheKey);
   } else {
-    store.clear();
-    inflight.clear();
+    cacheStore.clear();
+    pendingRequests.clear();
   }
 }
 
-/**
- * Ejecuta `fn` y cachea el resultado. Si hay una solicitud en vuelo
- * para la misma key, reusa la promesa en lugar de hacer otra llamada.
- */
-export async function withCache<T>(
-  key: string,
-  fn: () => Promise<T>,
-  ttl?: number,
+export async function executeWithCache<T>(
+  cacheKey: string,
+  fetchFunction: () => Promise<T>,
+  expiration?: number,
 ): Promise<T> {
-  // 1. Revisar cache
-  const cached = getCached<T>(key);
+  const cached = getFromCache<T>(cacheKey);
   if (cached !== undefined) return cached;
 
-  // 2. Revisar si ya hay una petición en vuelo para esta key
-  const inFlight = inflight.get(key) as Promise<T> | undefined;
-  if (inFlight) return inFlight;
+  const existingRequest = pendingRequests.get(cacheKey) as Promise<T> | undefined;
+  if (existingRequest) return existingRequest;
 
-  // 3. Hacer la petición
-  const promise = fn()
-    .then((data) => {
-      setCache(key, data, ttl);
-      inflight.delete(key);
-      return data;
+  const promise = fetchFunction()
+    .then((result) => {
+      setInCache(cacheKey, result, expiration);
+      pendingRequests.delete(cacheKey);
+      return result;
     })
-    .catch((err) => {
-      inflight.delete(key);
-      throw err;
+    .catch((error) => {
+      pendingRequests.delete(cacheKey);
+      throw error;
     });
 
-  inflight.set(key, promise);
+  pendingRequests.set(cacheKey, promise);
   return promise;
 }
