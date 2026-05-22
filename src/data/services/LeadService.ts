@@ -1,4 +1,4 @@
-import { n8nClient } from "../repositories";
+import { n8nClient, n8nFetch } from "../repositories";
 import { n8nUrl } from "../repositories/n8nUrl";
 import { filterLeads } from "../../domain/services";
 import type {
@@ -39,7 +39,7 @@ export const leadService = {
   },
 
   async getLeadTranscription(callId: string): Promise<string> {
-    const response = await fetch(`${n8nUrl(WEBHOOK_PATH)}?call_id=${callId}`);
+    const response = await n8nFetch(`${n8nUrl(WEBHOOK_PATH)}?call_id=${callId}`);
 
     if (!response.ok) {
       throw new Error(`Error ${response.status}: ${response.statusText}`);
@@ -52,7 +52,7 @@ export const leadService = {
   },
 
   async getLeadAudio(callId: string): Promise<AudioResponse> {
-    const response = await fetch(
+    const response = await n8nFetch(
       `${n8nUrl(AUDIO_WEBHOOK_PATH)}?call_id=${callId}`,
     );
 
