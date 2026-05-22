@@ -23,6 +23,10 @@ export default defineConfig({
     "import.meta.env.VITE_GOOGLE_DRIVE_BASE_URL": JSON.stringify(
       "https://drive.google.com/file/d/",
     ),
+    "import.meta.env.VITE_N8N_AUTHORIZATION_HEADER":
+      JSON.stringify("Authorization"),
+    "import.meta.env.VITE_N8N_AUTHORIZATION_TOKEN":
+      JSON.stringify("Bearer BriscoNeuropoint.ai"),
   },
   test: {
     globals: true,
