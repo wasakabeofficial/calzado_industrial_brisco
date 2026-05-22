@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import type { ContactoBriscoResponse } from "../../domain/entities";
 import { leadService } from "../../data/services";
+import { clearCache } from "../../data/repositories";
 
 interface UseLeadDetailResult {
   lead: ContactoBriscoResponse | null;
@@ -27,10 +28,15 @@ export function useLeadDetail(leadId: number): UseLeadDetailResult {
     }
   }, [leadId]);
 
+  const refetch = useCallback(async () => {
+    clearCache();
+    await fetchLead();
+  }, [fetchLead]);
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchLead();
   }, [fetchLead]);
 
-  return { lead, loading, error, refetch: fetchLead };
+  return { lead, loading, error, refetch };
 }

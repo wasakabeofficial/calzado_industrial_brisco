@@ -5,6 +5,7 @@ import type {
 } from "../../domain/entities";
 import { emptyFilters } from "../../domain/entities";
 import { leadService } from "../../data/services";
+import { clearCache } from "../../data/repositories";
 
 interface UseLeadListResult {
   leads: ContactoBriscoResponse[];
@@ -33,10 +34,15 @@ export function useLeadList(
     }
   }, [filters]);
 
+  const refetch = useCallback(async () => {
+    clearCache();
+    await fetchLeads();
+  }, [fetchLeads]);
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchLeads();
   }, [fetchLeads]);
 
-  return { leads, loading, error, refetch: fetchLeads };
+  return { leads, loading, error, refetch };
 }
